@@ -1,3 +1,6 @@
+var webpack = require('webpack')
+var ExtractTextPlugin = require('extract-text-webpack-plugin')
+
 module.exports = {
   entry: {
     app: './src/main.js'
@@ -20,5 +23,24 @@ module.exports = {
       { test: /\.css$/, loader: 'style-loader!css-loader' }
     ]
   },
-  devtool: '#source-map'
+  plugins: [
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: '"production"'
+      }
+    }),
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false
+      }
+    }),
+    new ExtractTextPlugin('[name].min.css', {
+      allChunks: true
+    })
+  ],
+  vue: {
+    loaders: {
+      css: ExtractTextPlugin.extract('css')
+    }
+  }
 }
