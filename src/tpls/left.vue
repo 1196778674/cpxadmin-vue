@@ -1,7 +1,9 @@
 <template>
 	<div>
 		<ul>
-			<li v-for="left in lefts">{{ left.name }}</li >
+			<li v-for="item in left">
+				<a href="#" v-link="{path:''}">{{ item.name }}</a>
+			</li>
 		</ul>
 	</div>
 </template>
@@ -15,8 +17,14 @@ export default {
 
   data () {
     return {
-    	lefts: [{"id": "1", "name": "部门设置"},{"id": "2", "name": "门店员工"},{"id": "3", "name": "供应商"}];
+    	left: ''
     };
+  },
+  created: function(){
+  	var self = this;
+  	window.Ajax('../../json/left.json', null, 'GET', function(res){
+  		self.left = res;
+  	});
   }
 };
 </script>

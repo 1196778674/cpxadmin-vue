@@ -16,6 +16,7 @@ window.common = require('./js/common')
 import index from './views/index.vue'
 // 单店或分店基础信息
 import store from './views/basedata/basestore.vue'
+import setstore from './views/basedata/setstore/setstore.vue'
 
 
 Vue.config.debug = process.env.NODE_ENV !== 'production'
@@ -38,6 +39,11 @@ router.map({
 	'store': {
 		name: 'store',
 		component: store,
+		// 渲染子视图
+		subRoutes: {
+	      '': { component: setstore},
+	      // 'storemanagement': { component: storemanagement},
+	    }
 	}
 })
 

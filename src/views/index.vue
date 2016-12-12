@@ -1,5 +1,5 @@
 <template>
-	<div style="float: left" v-for='store in stores'>
+	<div class="col-sm-3 col-md-3" v-for='store in stores'>
     	<ul>
       		<li>{{ store.title }}</li>
       		<li>{{ store.address }}</li>

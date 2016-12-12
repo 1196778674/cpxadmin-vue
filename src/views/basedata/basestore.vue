@@ -10,11 +10,6 @@ export default {
 
   replace: false,
 
-  data () {
-    return {
-
-    };
-  },
   components: {
     "vuHeadtab": require('../../tpls/headtab.vue')
   },
