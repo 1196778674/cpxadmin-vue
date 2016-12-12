@@ -25,9 +25,13 @@ export default {
   name: 'header',
 
   data () {
+  	var self = this;
+  	window.Ajax('../json/user.json', null, 'GET', function (res) {
+  		self.user = res.name;
+  	})
     return {
     	title: '厨品秀商家大后台',
-    	user: '小灰灰'
+    	user: self.user
     };
   }
 };

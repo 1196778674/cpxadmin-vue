@@ -9,6 +9,7 @@ import './cpx.css'
 // 引入第三方库
 window.$ = window.jQuery = require('jquery')
 window.bootstrap = require('bootstrap')
+window.common = require('./js/common')
 
 // 引用模板部分
 
