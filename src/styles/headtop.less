@@ -1,0 +1,44 @@
+.header-top{
+	width: 100%;
+	height: 51px;
+	line-height: 50px;
+	overflow: hidden;
+	div{
+		height: 50px;
+		border-bottom: 1px solid #ccc;
+	}
+	.header-left{
+		font-size: 18px;
+		color: #328073;
+		border-right: 1px solid #ccc;
+		float: left;
+		text-align: center;
+	}
+	.header-right{
+		float: left;
+		ul{
+			overflow: hidden;
+			li{
+				float: left;
+				margin-left: 20px;
+				a{
+					display: block;
+					width: 80px;
+					height: 35px;
+					line-height: 35px;
+					border: 1px solid #ccc;
+					border-radius: 5px;
+					margin-top: 7px;
+					text-align: center;
+					cursor: pointer;
+					text-decoration: none;
+					&.active{
+						background: #328073;
+						color: #fafafa;
+						border: 1px solid #328073;
+					}
+				}
+			}
+		}
+	}
+}

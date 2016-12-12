@@ -1,5 +1,6 @@
 <template>
-store
+	<vu-headtab></vu-headtab>
+	<router-view></router-view>
 </template>
 
 <script>
@@ -13,6 +14,9 @@ export default {
     return {
 
     };
-  }
+  },
+  components: {
+    "vuHeadtab": require('../../tpls/headtab.vue')
+  },
 };
 </script>
