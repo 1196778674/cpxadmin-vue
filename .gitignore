@@ -2,5 +2,6 @@
 node_modules
 json
 page
+build
 .yo-rc.json
 *.log
