@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<ul>
-			<li v-for="item in left">
+			<li v-for="item in left" :class="{'active': item.active}">
 				<a href="#" v-link="{path:''}">{{ item.name }}</a>
 			</li>
 		</ul>
