@@ -46,7 +46,6 @@ router.map({
 		subRoutes: {
 	      '/': { component: setstore,
 	      		subRoutes: {
-	      			'/': { component: storelist },
 	      			'/storelist': { component: storelist },
 	      			'/storestaff': { component: storestaff }
 	      		}

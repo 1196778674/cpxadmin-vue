@@ -4,16 +4,17 @@
       		<li>{{ store.title }}</li>
       		<li>{{ store.address }}</li>
       		<li>{{ store.address1 }}</li>
-		    <li>{{ store.tel }}</li>
-		    <li>{{ store.storeid }}</li>
-		    <li>{{ store.opentime }}</li>
-		    <li>{{ store.status }}</li>
-		    <li>{{ store.warehouse }}</li>
-		    <li>{{ store.money }}</li>
-		    <li>{{ store.pay }}</li>
-      		<a href="#" v-link="{path:'/store'}">管理</a>
+  		    <li>{{ store.tel }}</li>
+  		    <li>{{ store.storeid }}</li>
+  		    <li>{{ store.opentime }}</li>
+  		    <li>{{ store.status }}</li>
+  		    <li>{{ store.warehouse }}</li>
+  		    <li>{{ store.money }}</li>
+  		    <li>{{ store.pay }}</li>
+      		<a href="#" v-link="{path:'/store', query:{ storeId: store.id }}">管理</a>
     	</ul>
   	</div >
+
 </template>
 
 <script>

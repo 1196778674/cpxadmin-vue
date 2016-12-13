@@ -12,6 +12,6 @@ export default {
 
   components: {
     "vuHeadtab": require('../../tpls/headtab.vue')
-  },
+  }
 };
 </script>
