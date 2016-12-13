@@ -1,8 +1,8 @@
 <template>
 	<div>
 		<ul>
-			<li v-for="item in left" :class="{'active': item.active}">
-				<a href="#" v-link="{path:''}">{{ item.name }}</a>
+			<li v-for="item in left" :class="{'active': item.active}" @click="isActive($index)">
+				<a href="#" v-link="{path: item.url}">{{ item.name }}</a>
 			</li>
 		</ul>
 	</div>
@@ -25,6 +25,14 @@ export default {
   	window.Ajax('../../json/left.json', null, 'GET', function(res){
   		self.left = res;
   	});
-  }
+  },
+  methods: {
+    isActive: function(i){
+      $.each(this.left, function(i, val) {
+        val.active = false;
+      });
+      this.left[i].active = true;
+    }
+  },
 };
 </script>

@@ -30,23 +30,24 @@ const router = new VueRouter()
 const App = Vue.extend(app)
 
 //定义全局的重定向规则。全局的重定向会在匹配当前路径之前执行。
-router.redirect({
-    '*':"/index"
-});
+// router.redirect({
+//     '*':"/"
+// });
 // 每条路由规则应该映射到一个组件。这里的“组件”可以是一个使用 Vue.extend
 router.map({
-	'index': {
+	'/': {
 		name: 'index',
 		component: index,
 	},
-	'store': {
+	'/store': {
 		name: 'store',
 		component: store,
 		// 渲染子视图
 		subRoutes: {
-	      '': { component: setstore,
+	      '/': { component: setstore,
 	      		subRoutes: {
-	      			'': { component: storelist },
+	      			'/': { component: storelist },
+	      			'/storelist': { component: storelist },
 	      			'/storestaff': { component: storestaff }
 	      		}
 	      	},
