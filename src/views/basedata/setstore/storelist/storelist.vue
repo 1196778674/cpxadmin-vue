@@ -1,7 +1,7 @@
 <template>
 	<div class="store-list">
-		<vu-storelistleft class="col-sm-2 col-md-2"></vu-storelistleft>
-		<vu-storelistright class="col-sm-10 col-md-10"></vu-storelistright>
+		<vu-storelistleft class="col-sm-3 col-md-3 storelistleft"></vu-storelistleft>
+    <router-view class="col-sm-9 col-md-9 storelistright"></router-view>
 	</div>
 </template>
 
@@ -18,8 +18,7 @@ export default {
     };
   },
   components: {
-  	"vuStorelistleft": require('./storelistleft.vue'),
-    "vuStorelistright": require('./storelistright.vue')
+  	"vuStorelistleft": require('./storelistleft.vue')
   }
 };
 </script>

@@ -1,11 +1,1 @@
-.store-list {
-  padding: 15px 0px;
-  overflow: hidden;
-  margin-top: 15px;
-  border: 1px solid #ccc;
-}
-.store-list .store-list-left ul li {
-  height: 30px;
-  border-bottom: 1px solid #ccc;
-  line-height: 30px;
-}
+@import url('storelist.css');

@@ -1,0 +1,55 @@
+.home-container {
+  background: #fafafa;
+  overflow: hidden;
+  padding: 20px;
+  min-height: 800px;
+  padding-top: 30px;
+}
+.home-container .title {
+  padding: 0 10px;
+}
+.home-container .address-tel ul,
+.home-container .set-status ul {
+  overflow: hidden;
+}
+.home-container .address-tel ul li,
+.home-container .set-status ul li {
+  margin-top: 5px;
+  font-size: 15px;
+}
+.home-container .address-tel ul li:nth-child(1),
+.home-container .set-status ul li:nth-child(1) {
+  margin-top: 0;
+}
+.home-container .address-tel ul li span,
+.home-container .set-status ul li span {
+  margin-right: 10px;
+}
+.home-container .address-tel ul .address,
+.home-container .set-status ul .address {
+  font-size: 17px;
+  font-weight: 600;
+}
+.home-container .caption-hr {
+  margin-top: 0px;
+  margin-bottom: 10px;
+}
+.home-container .checkbox-list {
+  width: 100%;
+  padding: 0px 20px;
+  padding-bottom: 10px;
+  position: relative;
+}
+.home-container .checkbox-list label {
+  display: block;
+}
+.home-container .checkbox-list label input {
+  margin-right: 10px;
+}
+.home-container .checkbox-list a {
+  position: absolute;
+  right: 20px;
+  bottom: 15px;
+  width: 100px;
+  border-radius: 3px;
+}

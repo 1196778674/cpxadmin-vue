@@ -1,11 +1,35 @@
 <template>
-	<div class="store-list-left">
-		<ul>
-			<li v-for="item in list">
-				{{item.name}}
-			</li >
-		</ul>
-	</div>
+	<div class="storelistleft-list">
+   <div class="header-add">
+    部门列表
+    <a class="btn btn-primary" data-toggle="modal" href='#add-list'>添加部门</a>
+  </div>
+  <!-- model start -->
+  <div class="modal fade" id="add-list">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">添加部门</h4>
+        </div>
+        <div class="modal-body">
+          <label>部门名称:</label>
+          <input type="text" name="" class="form-control" value="" v-model="storename">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+          <button type="button" class="btn btn-primary" data-dismiss="modal" @click="addStore">确定</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- model end -->
+   <ul>
+    <li v-for="item in list">
+      {{ item.name }}
+    </li >
+  </ul>
+  </div>
 </template>
 
 <script>
@@ -17,14 +41,23 @@ export default {
 
   data () {
     return {
-    	list: ''
+    	list: '',
+      storename: '添加门店',
     };
   },
   created: function(){
-  	var self = this;
-  	window.Ajax('../../../../../json/storelistleft.json', null, 'GET', function(res){
-  		self.list = res;
-  	});
+    var self = this;
+    window.Ajax('../../../../../json/storelistleft.json', null ,'GET', function(res){
+      self.list = res;
+    });
   },
+  methods: {
+    addStore: function(){
+      this.list.push({
+          name: this.storename
+      });
+      this.storename = '';
+    }
+  }
 };
 </script>

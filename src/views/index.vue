@@ -1,19 +1,34 @@
 <template>
-	<div class="col-sm-3 col-md-3" v-for='store in stores'>
-    	<ul>
-      		<li>{{ store.title }}</li>
-      		<li>{{ store.address }}</li>
-      		<li>{{ store.address1 }}</li>
-  		    <li>{{ store.tel }}</li>
-  		    <li>{{ store.storeid }}</li>
-  		    <li>{{ store.opentime }}</li>
-  		    <li>{{ store.status }}</li>
-  		    <li>{{ store.warehouse }}</li>
-  		    <li>{{ store.money }}</li>
-  		    <li>{{ store.pay }}</li>
-      		<a href="#" v-link="{path:'/store', query:{ storeId: store.id }}">管理</a>
-    	</ul>
-  	</div >
+  <div class="home-container">
+    <div class="col-sm-6 col-md-4" v-for='store in stores'>
+      <div class="thumbnail">
+        <h3 class="title">{{ store.title }}</h3>
+        <div class="caption address-tel">
+          <ul>
+            <li class="col-md-8 col-sm-8 address">{{ store.address }}</li>
+            <li class="col-md-8 col-sm-8">{{ store.address1 }}</li>
+            <li class="col-md-8 col-sm-8">{{ store.tel }}</li>
+          </ul>
+        </div>
+        <hr class="caption-hr">
+        <div class="caption set-status">
+          <ul>
+            <li class="col-md-8 col-sm-8"><span>门店ID:</span>{{ store.storeid }}</li>
+            <li class="col-md-8 col-sm-8"><span>启用时间:</span>{{ store.opentime }}</li>
+            <li class="col-md-8 col-sm-8"><span>当前状态:</span>{{ store.status }}</li>
+            <li class="col-md-8 col-sm-8" v-if="store.num"><span>下属分店:</span>{{ store.num }}个</li>
+            <li class="col-md-8 col-sm-8" v-else>无分店</li>
+          </ul>
+        </div>
+        <div class="checkbox-list">
+          <label><input type="checkbox" disabled v-model="store.warehouse">库房系统</label>
+          <label><input type="checkbox" disabled v-model="store.money">财务系统</label>
+          <label><input type="checkbox" disabled v-model="store.pay">收银系统</label>
+          <a v-link="{path:'/store', query:{ storeId: store.id }}" class="btn btn-primary">管理门店</a>
+        </div>
+      </div>
+    </div>
+  </div>
 
 </template>
 

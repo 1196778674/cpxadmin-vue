@@ -1,0 +1,15 @@
+.store-list {
+  margin-top: 20px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  overflow: hidden;
+}
+.store-list .storelistleft {
+  border-right: 1px solid #ccc;
+}
+.store-list .storelistleft .header-add {
+  min-height: 40px;
+  border-bottom: 1px solid #ccc;
+  font-size: 18px;
+  line-height: 40px;
+}

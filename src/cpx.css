@@ -14,9 +14,14 @@
 }
 .navbar{
 	margin-bottom: 0px;
+	border-radius: 0px;
+	border-left: 0;
+	border-right: 0;
+	background: #fff;
 }
 
 @import url('./styles/header.css');
+@import url('./styles/home.css');
 @import url('./styles/headtop.css');
 @import url('./styles/left.css');
 @import url('./styles/right.css');
