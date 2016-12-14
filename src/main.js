@@ -18,6 +18,7 @@ import index from './views/index.vue'
 import store from './views/basedata/basestore.vue'
 import setstore from './views/basedata/setstore/setstore.vue'
 import storelist from './views/basedata/setstore/storelist/storelist.vue'
+import storeright from './views/basedata/setstore/storelist/storelistright.vue'
 // 门店员工
 import storestaff from './views/basedata/setstore/storestaff/storestaff.vue'
 
@@ -46,7 +47,11 @@ router.map({
 		subRoutes: {
 	      '/': { component: setstore,
 	      		subRoutes: {
-	      			'/storelist': { component: storelist },
+	      			'/storelist': { component: storelist ,
+	      				subRoutes: {
+	      					'/:type' : {component: storeright}
+	      				}
+	      			},
 	      			'/storestaff': { component: storestaff }
 	      		}
 	      	},

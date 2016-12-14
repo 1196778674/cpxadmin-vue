@@ -26,7 +26,7 @@
   <!-- model end -->
    <ul>
     <li v-for="item in list">
-      {{ item.name }}
+      <a href="#" v-link="{path: '/store/storelist/' + item.id}" @click="changeType(item.id)">{{item.name}}</a>
     </li >
   </ul>
   </div>
@@ -52,11 +52,17 @@ export default {
     });
   },
   methods: {
+    // 添加部门
     addStore: function(){
       this.list.push({
           name: this.storename
       });
       this.storename = '';
+    },
+    // 切换部门
+    changeType: function(id){
+      // 传递id到父级组件
+      this.$dispatch("type", id);
     }
   }
 };

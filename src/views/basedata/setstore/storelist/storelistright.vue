@@ -18,7 +18,7 @@ export default {
 
   data () {
     return {
-    	list: ''
+    	list: '',
     };
   },
   created: function(){
@@ -26,6 +26,12 @@ export default {
   	window.Ajax('../../../../../json/storelistright.json', null, 'GET', function(res){
   		self.list = res;
   	});
+  },
+  events: {
+    type: function(type){
+      this.subData = {type: type};
+      console.log(this.subData);
+    }
   }
 };
 </script>

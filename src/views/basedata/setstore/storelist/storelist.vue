@@ -19,6 +19,12 @@ export default {
   },
   components: {
   	"vuStorelistleft": require('./storelistleft.vue')
+  },
+  events: {
+    type: function(type){
+      // 传递type到right子组件
+      this.$broadcast('type', type);
+    }
   }
 };
 </script>
