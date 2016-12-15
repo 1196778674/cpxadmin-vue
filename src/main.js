@@ -67,7 +67,11 @@ router.map({
 	      					'/:type' : {component: storeright}
 	      				}
 	      			},
-	      			'/storestaff': { component: storestaff },
+	      			'/storestaff': { component: storestaff,
+	      				subRoutes: {
+	      					'/:id' : {component: storestaff}
+	      				}
+	      			},
 	      			'/supplier': { component: supplier },
 	      			'/materialtype': { component: materialtype },
 	      			'/materialinit': { component: materialinit },
