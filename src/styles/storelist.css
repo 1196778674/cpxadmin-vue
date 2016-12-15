@@ -4,12 +4,23 @@
   border-radius: 3px;
   overflow: hidden;
 }
-.store-list .storelistleft {
-  border-right: 1px solid #ccc;
-}
 .store-list .storelistleft .header-add {
   min-height: 40px;
   border-bottom: 1px solid #ccc;
   font-size: 18px;
   line-height: 40px;
+}
+.store-list .storelistright {
+  border-left: 1px solid #ccc;
+}
+.store-list .storelistright .header-add-remove {
+  min-height: 40px;
+  border-bottom: 1px solid #ccc;
+  font-size: 18px;
+  line-height: 40px;
+  text-align: center;
+}
+.store-list .storelistright .header-add-remove .btn-event {
+  float: right;
+  margin-top: 3px;
 }
