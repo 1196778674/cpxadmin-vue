@@ -22,9 +22,17 @@ export default {
   },
   created: function(){
   	var self = this;
-  	window.Ajax('../../json/left.json', null, 'GET', function(res){
-  		self.left = res;
-  	});
+    var leftType = self.$route.name;
+    if (leftType == 'home') {
+      window.Ajax('../../json/left.json', null, 'GET', function(res){
+        self.left = res;
+      });
+    };
+    if (leftType == 'warehouse') {
+      window.Ajax('../../json/leftwarehouse.json', null, 'GET', function(res){
+        self.left = res;
+      });
+    };
   },
   methods: {
     isActive: function(i){

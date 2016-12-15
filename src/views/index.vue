@@ -24,7 +24,7 @@
           <label><input type="checkbox" disabled v-model="store.warehouse">库房系统</label>
           <label><input type="checkbox" disabled v-model="store.money">财务系统</label>
           <label><input type="checkbox" disabled v-model="store.pay">收银系统</label>
-          <a v-link="{path:'/store', query:{ storeId: store.id }}" class="btn btn-primary">管理门店</a>
+          <a v-link="{path:'/home', query:{ storeId: store.id }}" class="btn btn-primary">管理门店</a>
         </div>
       </div>
     </div>

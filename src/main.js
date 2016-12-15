@@ -14,13 +14,29 @@ window.common = require('./js/common')
 // 引用模板部分
 // index首页
 import index from './views/index.vue'
+// home
+import home from './views/home.vue'
 // 单店或分店基础信息
-import store from './views/basedata/basestore.vue'
-import setstore from './views/basedata/setstore/setstore.vue'
-import storelist from './views/basedata/setstore/storelist/storelist.vue'
-import storeright from './views/basedata/setstore/storelist/storelistright.vue'
+import setstore from './views/basedata/setstore.vue'
+import storelist from './views/basedata/storelist/storelist.vue'
+import storeright from './views/basedata/storelist/storelistright.vue'
 // 门店员工
-import storestaff from './views/basedata/setstore/storestaff/storestaff.vue'
+import storestaff from './views/basedata/storestaff/storestaff.vue'
+// 供应商
+import supplier from './views/basedata/supplier/supplier.vue'
+// 物料类别
+import materialtype from './views/basedata/materialtype/materialtype.vue'
+// 初始化物料信息
+import materialinit from './views/basedata/materialinit/materialinit.vue'
+// 单位管理
+import unitmanagement from './views/basedata/unitmanagement/unitmanagement.vue'
+// 权限设置
+import permissions from './views/basedata/permissions/permissions.vue'
+
+// 库房
+import warehouse from './views/warehouse/warehouse.vue'
+// 初始化库房信息
+import warehouseinit from './views/warehouse/warehouseinit/warehouseinit.vue'
 
 
 Vue.config.debug = process.env.NODE_ENV !== 'production'
@@ -40,10 +56,9 @@ router.map({
 		name: 'index',
 		component: index,
 	},
-	'/store': {
-		name: 'store',
-		component: store,
-		// 渲染子视图
+	'/home': {
+		name: 'home',
+		component: home,
 		subRoutes: {
 	      '/': { component: setstore,
 	      		subRoutes: {
@@ -52,11 +67,24 @@ router.map({
 	      					'/:type' : {component: storeright}
 	      				}
 	      			},
-	      			'/storestaff': { component: storestaff }
+	      			'/storestaff': { component: storestaff },
+	      			'/supplier': { component: supplier },
+	      			'/materialtype': { component: materialtype },
+	      			'/materialinit': { component: materialinit },
+	      			'/unitmanagement': { component: unitmanagement },
+	      			'/permissions': { component: permissions },
 	      		}
-	      	},
-	      // 'storemanagement': { component: storemanagement},
+	      	}
 	    }
+	},
+	'/warehouse' : {
+		name: 'warehouse',
+		component: home,
+		subRoutes: {
+			'/': {
+				component: warehouse,
+			}
+		}
 	}
 })
 

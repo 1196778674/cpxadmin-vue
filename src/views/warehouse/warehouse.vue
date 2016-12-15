@@ -6,7 +6,7 @@
 <script>
 export default {
 
-  name: 'setstore',
+  name: 'warehouse',
 
   data () {
     return {
@@ -14,8 +14,8 @@ export default {
     };
   },
   components: {
-    "vuLeft": require('../../../tpls/left.vue'),
-    "vuRight": require('../../../tpls/right.vue')
+    "vuLeft": require('../../tpls/left.vue'),
+    "vuRight": require('../../tpls/right.vue')
   },
 };
 </script>

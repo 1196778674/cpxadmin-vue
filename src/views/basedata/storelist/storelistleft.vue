@@ -26,7 +26,7 @@
   <!-- model end -->
    <ul>
     <li v-for="item in list">
-      <a href="#" v-link="{path: '/store/storelist/' + item.id}" @click="changeType(item.id)">{{item.name}}</a>
+      <a href="#" v-link="{path: '/home/storelist/' + item.id}" @click="changeType(item.id)">{{item.name}}</a>
     </li >
   </ul>
   </div>

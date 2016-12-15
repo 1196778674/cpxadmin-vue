@@ -85,7 +85,7 @@ export default {
   events: {
     type: function(type){
       this.subData = {type: type};
-      // console.log(this.subData);
+      console.log(this.subData);
     }
   },
   methods: {

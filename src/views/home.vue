@@ -6,12 +6,12 @@
 <script>
 export default {
 
-  name: 'store',
+  name: 'home',
 
   replace: false,
 
   components: {
-    "vuHeadtab": require('../../tpls/headtab.vue')
+    "vuHeadtab": require('../tpls/headtab.vue')
   }
 };
 </script>
