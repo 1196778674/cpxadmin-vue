@@ -97,7 +97,11 @@ export default {
     changeModelText: function(){
       this.text.title = '添加';
       this.text.btn = '添加';
-      this.addForm = {};
+      this.addForm = {
+        num: '',
+        name: '',
+        tel: ''
+      };
     },
     // 添加员工
     addStaff: function(){
@@ -113,7 +117,7 @@ export default {
       var self = this;
       var subdata = !params ? null : {params: params};
       window.Ajax('../../../../json/stafflist.json', subdata, 'GET', function(res){
-        self.list = res;
+        self.list = res.list;
       });
     },
     // 修改
