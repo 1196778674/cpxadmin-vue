@@ -46,9 +46,8 @@ export default {
     };
   },
   created: function(){
-    var self = this;
-    window.Ajax('../../../../../json/storelistleft.json', null ,'GET', function(res){
-      self.list = res;
+    this.$http.get('../../../../../json/storelistleft.json', null).then(function(res){
+      this.list = res.data;
     });
   },
   methods: {

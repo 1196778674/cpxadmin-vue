@@ -139,12 +139,11 @@ export default {
     },
     // 获取列表
     getList: function(params){
-      var self = this;
       var subdata = !params ? null : {params: params};
-      window.Ajax('../../../../json/stafflist.json', subdata, 'GET', function(res){
-        self.list = res.list;
-        self.pagination = res.pagination;
-        self.$dispatch('pagination', self.pagination);
+      this.$http.get('../../../../json/stafflist.json', subdata).then(function(res){
+        this.list = res.data.list;
+        this.pagination = res.data.pagination;
+        this.$dispatch('pagination', this.pagination);
       });
     },
     // 修改

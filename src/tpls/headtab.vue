@@ -22,10 +22,9 @@ export default {
     };
   },
   created: function(){
-  	var self = this;
-  	window.Ajax('../../json/headtop.json', null, 'GET', function(res){
-  		self.headtop = res;
-  	});
+    this.$http.get('../../json/headtop.json').then(function(res){
+      this.headtop = res.data;
+    });
   },
   methods: {
     isActive: function(i){

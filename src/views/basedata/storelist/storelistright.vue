@@ -77,10 +77,9 @@ export default {
     };
   },
   created: function(){
-  	var self = this;
-  	window.Ajax('../../../../../json/storelistright.json', null, 'GET', function(res){
-  		self.list = res;
-  	});
+    this.$http.get('../../../../../json/storelistright.json', null).then(function(res){
+      this.list = res.data;
+    });
   },
   events: {
     type: function(type){
@@ -101,9 +100,8 @@ export default {
     },
     // 请求员工列表
     showStaffList: function(){
-      var self = this;
-      window.Ajax('../../../../../json/storelistright.json', null, 'GET', function(res){
-        self.staffs = res;
+      this.$http.get('../../../../../json/storelistright.json', null).then(function(res){
+        this.staffs = res.data;
       });
     },
     // 添加员工

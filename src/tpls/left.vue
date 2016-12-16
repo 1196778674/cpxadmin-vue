@@ -28,10 +28,9 @@ export default {
     };
   },
   created: function(){
-  	var self = this;
-    window.Ajax(this.url, null, 'GET', function(res){
-        self.left = res;
-      });
+    this.$http.get(this.url).then(function(res){
+      this.left = res.data;
+    });
   },
   methods: {
     isActive: function(i){

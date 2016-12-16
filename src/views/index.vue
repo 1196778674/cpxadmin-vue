@@ -45,13 +45,9 @@ export default {
     };
   },
   created: function(){
-    var self = this;
-    window.Ajax('../json/index.json', null, 'GET', function(res){
-      self.stores = res.stores;
+    this.$http.get('../json/index.json').then(function(res){
+      this.stores = res.data.stores;
     });
   }
 };
 </script>
-
-<style lang="css" scoped>
-</style>

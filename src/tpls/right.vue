@@ -20,10 +20,9 @@ export default {
     };
   },
   created: function(){
-  	var self = this;
-  	window.Ajax('../../json/righttype.json', null, 'GET', function(res){
-  		self.type = res.type;
-  	});
+    this.$http.get('../../json/righttype.json').then(function(res){
+      this.type = res.data.type;
+    });
   },
 };
 </script>
