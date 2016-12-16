@@ -15,6 +15,13 @@ export default {
 
   replace: false,
 
+  props: {
+    url: {
+      type: String,
+      default: ''
+    }
+  },
+
   data () {
     return {
     	left: ''
@@ -22,17 +29,9 @@ export default {
   },
   created: function(){
   	var self = this;
-    var leftType = self.$route.name;
-    if (leftType == 'home') {
-      window.Ajax('../../json/left.json', null, 'GET', function(res){
+    window.Ajax(this.url, null, 'GET', function(res){
         self.left = res;
       });
-    };
-    if (leftType == 'warehouse') {
-      window.Ajax('../../json/leftwarehouse.json', null, 'GET', function(res){
-        self.left = res;
-      });
-    };
   },
   methods: {
     isActive: function(i){

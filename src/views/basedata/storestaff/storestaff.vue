@@ -1,5 +1,4 @@
 <template>
-<div class="alert alert-success" role="alert">...</div>
 	<div class="store-staff">
     <!-- 门店员工列表 start -->
     <vu-list></vu-list>
