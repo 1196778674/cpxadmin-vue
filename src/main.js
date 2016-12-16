@@ -43,6 +43,10 @@ Vue.config.debug = process.env.NODE_ENV !== 'production'
 
 Vue.use(VueRouter)
 
+// $http
+var VueResource = require('vue-resource')
+Vue.use(VueResource)
+
 const router = new VueRouter()
 const App = Vue.extend(app)
 

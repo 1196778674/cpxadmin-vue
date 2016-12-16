@@ -25,10 +25,9 @@ export default {
   name: 'header',
 
   data () {
-  	var self = this;
-  	window.Ajax('../json/user.json', null, 'GET', function (res) {
-  		self.user = res.name;
-  	})
+  	this.$http.get('../json/user.json', null).then(function(res){
+  		this.user = res.data.name;
+  	});
     return {
     	title: '厨品秀商家大后台',
     	user: self.user
