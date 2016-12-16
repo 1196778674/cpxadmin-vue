@@ -34,7 +34,7 @@
       <td>
         <div class="btn-group">
           <a class="btn btn-default" role="button" data-toggle="modal" data-id="{{item.id}}" href="#add-eidt-Staff" @click="edit($event)">{{item.change}}</a>
-          <button class="btn btn-danger" role="button" data-id="{{item.id}}" @click="remove($event)">{{item.delete}}</button>
+          <a class="btn btn-danger" role="button" data-toggle="modal" data-id="{{item.id}}" href="#delete-Staff" @click="remove($event)">{{item.delete}}</a>
         </div>
       </td>
     </tr>
@@ -64,6 +64,25 @@
   </div>
 </div>
 <!-- 添加、编辑模板 end -->
+<!-- 删除模板 start -->
+<div class="modal fade bs-example-modal-sm" id="delete-Staff">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" href="#add-eidt-Staff" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title">{{text.remove}}</h4>
+      </div>
+      <div class="modal-body">
+        是否删除当前记录!
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal" @click="addStaff">{{text.remove}}</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- 删除模板 end -->
 </template>
 
 <script>
@@ -77,7 +96,8 @@ export default {
     	list: '',
       text: {
         title: '',
-        btn: ''
+        btn: '',
+        remove: '删除'
       },
       addForm: {
         num: '',
