@@ -91,9 +91,10 @@ export default {
     this.getList();
   },
   events: {
+    // 获取当前页码
   	page: function(page){
   		this.getList(page);
-  	},
+  	}
   },
   methods: {
     // 修改model文案

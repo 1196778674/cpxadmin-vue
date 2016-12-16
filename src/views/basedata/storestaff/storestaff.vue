@@ -4,7 +4,7 @@
     <vu-list></vu-list>
     <!-- 门店员工列表 end -->
     <!-- 页码 start -->
-    <vu-pagination></vu-pagination>
+    <vu-pagination url='/home/storestaff/'></vu-pagination>
     <!-- 页码 end -->
 	</div>
 </template>
@@ -17,9 +17,11 @@ export default {
   replace: false,
 
   events: {
+    // 分发页码list给pagination模板
     pagination: function(pagination){
       this.$broadcast('pagination', pagination);
     },
+    // 分发当前页码给list模板
     page: function(page){
       this.$broadcast('page', page);
     }
