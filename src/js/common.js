@@ -1,1 +1,8 @@
-console.log("调用全局js，目前没有用到");
+exports.tips = {
+	init: function(){
+		this.aa();
+	},
+	aa: function(){
+		console.log("aa");
+	}
+}
