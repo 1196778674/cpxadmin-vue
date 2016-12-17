@@ -19,7 +19,7 @@ export default {
 
   methods: {
   	showtips: function(){
-  		parent.Public.tips.init();
+  		parent.Public.tips.init('公共方法');
   	},
   },
 

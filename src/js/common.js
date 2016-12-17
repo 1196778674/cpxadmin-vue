@@ -1,8 +1,8 @@
 exports.tips = {
-	init: function(){
-		this.aa();
+	init: function(a){
+		this.aa(a);
 	},
-	aa: function(){
-		console.log("aa");
+	aa: function(a){
+		console.log(a);
 	}
 }
