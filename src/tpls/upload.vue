@@ -3,7 +3,7 @@
     <label for="{{ name }}"><input type="file" name="{{ name }}" id="{{ id || name }}" accept="{{ accept }}" v-on:click="fileInputClick" v-on:change="fileInputChange" multiple="{{ multiple }}">
       <slot></slot>
     </label>
-    <button type="button" v-on:click="fileUpload">{{ buttonText }}</button>
+    <!-- <button type="button" v-on:click="fileUpload">{{ buttonText }}</button> -->
   </div>
 </template>
 
@@ -49,6 +49,7 @@ export default {
       var ident = this.id || this.name
       this.myFiles = document.getElementById(ident).files;
       this.$dispatch('onFileChange', this.myFiles);
+      this.fileUpload();
     },
     _onProgress: function(e) {
       // this is an internal call in XHR to update the progress

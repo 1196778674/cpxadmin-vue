@@ -1,6 +1,6 @@
 <template>
 物料初始化
-<file-upload button-text="上传" class='' name='' id='upload' action='' method=''></file-upload>
+<file-upload button-text="上传" class='' name='' id='upload' action='' method='' accept=""></file-upload>
 </template>
 
 <script>
