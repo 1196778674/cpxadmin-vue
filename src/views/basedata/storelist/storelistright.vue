@@ -90,13 +90,17 @@ export default {
   methods: {
     // 删除员工
     removeStaff: function(){
-      var datas = [];
+      var datas = [],
+          newList = [];
       $.each(this.list, function(i, v) {
         if (v.checked) {
           datas.push(v.id);
+        } else {
+          newList.push(v);
         };
       });
       console.log(datas);
+      this.list = newList;
     },
     // 请求员工列表
     showStaffList: function(){
