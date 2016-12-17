@@ -1,6 +1,6 @@
 <template>
   <div class="{{ class }}">
-    <label for="{{ name }}"><input type="file" name="{{ name }}" id="{{ id || name }}" accept="{{ accept }}" v-on:click="fileInputClick" v-on:change="fileInputChange" multiple="{{ multiple }}">
+    <label for="{{ name }}"><input type="file" name="{{ name }}" id="{{ id || name }}" accept="{{ accept }}" @click="fileInputClick" @change="fileInputChange" multiple="{{ multiple }}">
       <slot></slot>
     </label>
     <!-- <button type="button" v-on:click="fileUpload">{{ buttonText }}</button> -->
