@@ -1,23 +1,9 @@
-*{
-	margin: 0;
-	padding: 0;
-	list-style: none;
-	border: 0;
-	outline: 0;
-	text-decoration: none;
-}
+/* 提示信息 */
 .browsehappy {
   margin: 0.2em 0;
   background: #ccc;
   color: #000;
   padding: 0.2em 0;
-}
-.navbar{
-	margin-bottom: 0px;
-	border-radius: 0px;
-	border-left: 0;
-	border-right: 0;
-	background: #fff;
 }
 
 @import url('./styles/header.css');
@@ -25,3 +11,6 @@
 @import url('./styles/headtop.css');
 @import url('./styles/left.css');
 @import url('./styles/right.css');
+
+@import url('./css/reset.css');
+@import url('./css/style.css');
