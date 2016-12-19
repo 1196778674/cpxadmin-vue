@@ -19,7 +19,7 @@ export default {
 
   methods: {
   	showtips: function(){
-  		parent.Public.tips.init('公共方法');
+  		parent.Public.tips.init({content: '请输入23432捡垃圾的福利水电费'});
   	},
   },
 

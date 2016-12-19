@@ -1,0 +1,35 @@
+.show-tips-html{
+	position: fixed;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	background: none;
+	display:-moz-box;
+	-moz-box-pack:center;
+	-moz-box-align:center;
+	display:-webkit-box;
+	-webkit-box-pack:center;
+	-webkit-box-align:center;
+	display:box;
+	box-pack:center;
+	box-align:center;
+	.show-tips{
+		padding: 10px 20px;
+		font-size: 16px;
+		border-radius: 5px;
+		border: 1px solid red;
+		&.tips-danger{
+			border: 1px solid #d9534f;
+			color: #d9534f;
+		}
+		&.tips-warning{
+			border: 1px solid  #f0ad4e;
+			color: #f0ad4e;
+		}
+		&.tips-success{
+			border: 1px solid  #5bc0de;
+			color: #5bc0de;
+		}
+	}
+}

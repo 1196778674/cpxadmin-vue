@@ -4,6 +4,7 @@ import VueRouter from 'vue-router'
 
 // 引用css
 import 'bootstrap/dist/css/bootstrap.css'
+import 'animate.css/animate.min.css'
 import './cpx.css'
 
 // 引入第三方库
