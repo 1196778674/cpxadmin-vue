@@ -38,7 +38,7 @@ export default {
     // 上一页
     prevPage: function(){
       if (!this.$route.params.id || this.$route.params.id == 1) {
-        alert('已经是第一页');
+        parent.Public.tips.init({content: '已经是第一页'});
         return false;
       };
       var page = this.$route.params.id - 1;
@@ -52,7 +52,7 @@ export default {
       };
       var page = eval(this.$route.params.id) + 1;
       if (this.pagination.length < page) {
-        alert('已经是最后一页');
+        parent.Public.tips.init({content: '已经是最后一页'});
         return false;
       };
       this.page = page;

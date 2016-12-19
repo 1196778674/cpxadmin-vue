@@ -2,7 +2,7 @@ exports.tips = {
 	init: function(obj){
 		var objs = $.extend(true, this.default(), obj);
 		// 添加html
-		this.addTipsHtml(objs);
+		!$('.show-tips-html').length && this.addTipsHtml(objs);
 		// 销毁html
 		setTimeout(this.removeTipsHtml, objs.hideTime);
 	},
