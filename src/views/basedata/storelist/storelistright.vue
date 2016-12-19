@@ -1,12 +1,12 @@
 <template>
-	<div class="store-list-right">
-    <div class="header-add-remove">
-      收银部
-      <div class="btn-group btn-event">
-        <a class="btn btn-default" data-toggle="modal" href='#remove-list'>移除</a>
-        <a class="btn btn-primary" data-toggle="modal" href='#add-list-staff' @click="showStaffList">添加</a>
-      </div>
+  <div class="register-top">
+    <h5>收银部</h5>
+    <div class="btn-group btn-event">
+      <a class="btn btn-danger dishes-but register-but" data-toggle="modal" href='#remove-list'>移除</a>
+      <a class="btn btn-default dishes-but register-but" data-toggle="modal" href='#add-list-staff' @click="showStaffList">添加</a>
     </div>
+  </div>
+	<div class="store-list-right">
 		<ul>
 			<li v-for="item in list">
 				<label>
@@ -72,6 +72,7 @@ export default {
 
   data () {
     return {
+      checkedall: false,
     	list: '',
       staffs: ''
     };
@@ -116,7 +117,26 @@ export default {
           self.list.push({id: v.id, name: v.name});
         };
       });
+      this.checkedall = false;
     }
   }
 };
 </script>
+
+<style lang="css" scoped>
+.btn-event{
+  position: absolute;
+  right: 10px;
+  top: 0px;
+}
+.store-list-right{
+  padding: 20px;
+}
+.store-list-right ul{
+  overflow: hidden;
+}
+.store-list-right ul li{
+  float: left;
+  margin-right: 15px;
+}
+</style>

@@ -6,12 +6,6 @@
   padding: 0.2em 0;
 }
 
-@import url('./styles/header.css');
-@import url('./styles/home.css');
-@import url('./styles/headtop.css');
-@import url('./styles/left.css');
-@import url('./styles/right.css');
-
 @import url('./css/reset.css');
 @import url('./css/style.css');
 @import url('./css/tips.css');

@@ -24,6 +24,10 @@ a {
 a:hover {
   text-decoration: none;
 }
+a:focus{
+  outline: 0;
+  text-decoration: none;
+}
 button,input,select,textarea {
   font-size: 100%;
   margin: 0;

@@ -1,8 +1,8 @@
 <template>
-	<div class="store-list">
-		<vu-storelistleft class="col-sm-3 col-md-3 storelistleft"></vu-storelistleft>
-    <router-view class="col-sm-9 col-md-9 storelistright"></router-view>
-	</div>
+  <div class="table-responsive">
+		<vu-storelistleft  class="table-allot"></vu-storelistleft>
+    <router-view class="register-right"></router-view>
+  </div>
 </template>
 
 <script>
@@ -28,3 +28,15 @@ export default {
   }
 };
 </script>
+
+<style lang="css" scoped>
+.table-responsive{
+  padding-top: 15px;
+}
+.table-allot{
+  width: 15%;
+}
+.register-right{
+  width: 85%;
+}
+</style>

@@ -1,6 +1,8 @@
 <template>
-	<vu-left url='../../json/left.json' class="col-md-2 col-sm-2 left-nav"></vu-left>
-	<vu-right class="col-md-10 col-sm-10"></vu-right>
+<section class="admin-main">
+ <vu-left url='../../json/left.json' class="col-xs-2 admin-left-menu"></vu-left>
+ <vu-right class="col-xs-10 admin-right-main"></vu-right>
+</section>
 </template>
 
 <script>

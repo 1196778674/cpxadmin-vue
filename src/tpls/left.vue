@@ -1,11 +1,11 @@
 <template>
-	<div>
-		<ul>
-			<li v-for="item in left" :class="{'active': item.active}" @click="isActive($index)">
-				<a href="#" v-link="{path: item.url}">{{ item.name }}</a>
-			</li>
-		</ul>
-	</div>
+  <div class="admin-menu" :style="{height:leftheight}">
+    <ul>
+      <li v-for="item in left" :class="{'classify': item.active}" @click="isActive($index)">
+        <a href="#" v-link="{path: item.url}">{{ item.name }}</a>
+      </li>
+     </ul>
+  </div>
 </template>
 
 <script>
@@ -24,13 +24,16 @@ export default {
 
   data () {
     return {
-    	left: ''
+    	left: '',
+      leftheight: ''
     };
   },
   created: function(){
     this.$http.get(this.url).then(function(res){
       this.left = res.data;
     });
+    // 左侧高度
+    this.leftheight = ($(window).height() - 185) + 'px';
   },
   methods: {
     isActive: function(i){
