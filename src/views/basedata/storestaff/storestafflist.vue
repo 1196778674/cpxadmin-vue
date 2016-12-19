@@ -1,45 +1,53 @@
 <template>
-<form class="form-inline" role="form">
-  <div class="form-group">
-    <input type="text" class="form-control" v-model="subdata" placeholder="编号">
-  </div>
-  <button type="button" class="btn btn-primary" @click="search">搜索</button>
-  <a type="button" class="btn btn-primary" data-toggle="modal" @click="changeModelText" href="#add-eidt-Staff">添加</a>
-</form>
-<table class="table table-hover" v-if="list">
-  <thead>
-    <tr>
-      <th>员工编号</th>
-      <th>员工姓名</th>
-      <th>手机号码</th>
-      <th>所在部门</th>
-      <th>状态</th>
-      <th>操作</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr v-for="item in list">
-      <td>{{item.num}}</td>
-      <td>{{item.name}}</td>
-      <td>{{item.tel}}</td>
-      <td>{{item.deparement}}</td>
-      <td>
-        <div class="checkbox">
-          <label>
-            <input type="checkbox" v-model="item.status">
-            开启
-          </label>
-        </div>
-      </td>
-      <td>
-        <div class="btn-group">
-          <a class="btn btn-default" role="button" data-toggle="modal" data-id="{{item.id}}" href="#add-eidt-Staff" @click="edit($event)">{{item.change}}</a>
-          <a class="btn btn-danger" role="button" data-toggle="modal" data-id="{{item.id}}" href="#delete-Staff" @click="remove($event)">{{item.delete}}</a>
-        </div>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<div class="main-tit">
+    <form class="form-inline search-num" role="form">
+      <div class="form-group">
+        <input type="email" class="form-control admin-cast" v-model="subdata" placeholder="请输入分类编号/首字母、名称">
+        <button type="button" class="btn btn-default dishes-but" data-toggle="dropdown" @click="search">
+          搜索
+        </button>
+      </div>
+    </form>
+    <div class="btn-group dishes-group">
+      <button type="button" class="btn btn-default dishes-but" data-toggle="dropdown">
+        新增员工
+      </button>
+    </div>
+</div>
+<div class="table-responsive">
+  <table class="table table-operation" v-if="list">
+    <thead>
+        <tr>
+            <th width="10%">员工编号</th>
+            <th width="10%">员工姓名</th>
+            <th width="20%">手机号码</th>
+            <th width="22%">所在部门</th>
+            <th width="24%">状态</th>
+            <th width="14%">操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr v-for="item in list">
+            <td>{{item.num}}</td>
+            <td>{{item.name}}</td>
+            <td>{{item.tel}}</td>
+            <td>{{item.deparement}}</td>
+            <td>
+                <div class="admin-change">
+                    <div class="checkbtn">
+                      <span v-if="item.status" class="admin-open">启用</span>
+                      <span v-else>停用</span>
+                    </div>
+                </div>
+            </td>
+            <td>
+                <a class="admin-make" role="button" data-toggle="modal" data-id="{{item.id}}" href="#add-eidt-Staff" @click="edit($event)">{{item.change}}</a>
+                <a class="admin-make" role="button" data-toggle="modal" data-id="{{item.id}}" href="#delete-Staff" @click="remove($event)">{{item.delete}}</a>
+            </td>
+        </tr>
+    </tbody>
+  </table>
+</div>
 
 <!-- 添加、编辑模板 start -->
 <div class="modal fade" id="add-eidt-Staff">
@@ -50,15 +58,35 @@
         <h4 class="modal-title">{{text.title}}</h4>
       </div>
       <div class="modal-body">
-        <ul class="input-group">
-          <input type="text" class="form-control" v-model="addForm.num" value="{{addForm.num}}" placeholder="内容">
-          <input type="text" class="form-control" v-model="addForm.name" value="{{addForm.name}}" placeholder="内容">
-          <input type="text" class="form-control" v-model="addForm.tel" value="{{addForm.tel}}" placeholder="内容">
-        </ul>
+        <div class="form-group kind-group">
+          <label for="" class="col-sm-3 control-label"><span>*</span>分类名称:</label>
+          <div class="col-sm-6">
+            <input type="text" class="form-control" v-model="addForm.name" value="{{addForm.name}}" id="" placeholder="">
+          </div>
+        </div>
+        <div class="form-group kind-group">
+          <label for="" class="col-sm-3 control-label"><span>*</span>分类编号:</label>
+          <div class="col-sm-6">
+            <input type="text" class="form-control" v-model="addForm.num" value="{{addForm.num}}" id="" placeholder="">
+          </div>
+        </div>
+        <div class="form-group kind-group">
+          <label for="" class="col-sm-3 control-label"><span>*</span>出品部门:</label>
+          <div class="col-sm-6">
+            <select class="form-control">
+                <option>请选择</option>
+                <option>凉菜房</option>
+                <option>收   银</option>
+                <option>烤鸭房</option>
+                <option>酒   吧</option>
+                <option value="">面点房</option>
+              </select>
+          </div>
+        </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal" @click="addStaff">{{text.btn}}</button>
+        <button type="button" class="btn btn-default kind-sure" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary kind-sure" data-dismiss="modal" @click="addStaff">{{text.btn}}</button>
       </div>
     </div>
   </div>
@@ -134,8 +162,8 @@ export default {
     // 搜索
     search: function(){
       var self = this;
+      console.log(this.subdata);
       self.getList(self.subdata);
-      console.log(self.pagination);
     },
     // 获取列表
     getList: function(params){

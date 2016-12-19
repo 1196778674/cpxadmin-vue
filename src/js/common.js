@@ -18,7 +18,7 @@ exports.tips = {
 			var tipsType = 'tips-success'
 		};
 		return '<div class="'+objs.htmlClass+'">'+
-				'<div class="'+tipsType+' show-tips animated bounceIn">'+
+				'<div class="'+tipsType+' show-tips">'+
 				objs.content +
 				'</div>' +
 				'</div>';

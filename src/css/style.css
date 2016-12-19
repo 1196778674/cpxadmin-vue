@@ -112,7 +112,7 @@ body{
 	margin-top: 15px;
 }
 .search-num{
-	width: 210px;
+	width: auto;
 	float: left;
 	margin-right: 30px;
 	margin-left: 10px;
