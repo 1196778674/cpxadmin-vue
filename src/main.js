@@ -110,6 +110,9 @@ router.map({
 		subRoutes: {
 			'/': {
 				component: warehouse,
+				subRoutes: {
+					'/warehouseinit': { component: warehouseinit}
+				}
 			}
 		}
 	}

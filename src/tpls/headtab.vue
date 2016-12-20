@@ -19,6 +19,7 @@ export default {
     };
   },
   created: function(){
+    console.log(this.$route.query);
     this.$http.get('../../json/headtop.json').then(function(res){
       this.headtop = res.data;
     });
