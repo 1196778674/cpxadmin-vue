@@ -9,7 +9,7 @@
       </div>
     </form>
     <div class="btn-group dishes-group">
-      <button type="button" class="btn btn-default dishes-but" data-toggle="modal" href="#add-eidt-Staff" @click='changeModelText' data-toggle="dropdown">
+      <button type="button" class="btn btn-default dishes-but" data-toggle="modal" href="#add-eidt-staff" @click='changeModelText' data-toggle="dropdown">
         新增员工
       </button>
     </div>
