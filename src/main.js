@@ -77,7 +77,11 @@ router.map({
 	      					'/:id' : {component: storestaff}
 	      				}
 	      			},
-	      			'/supplier': { component: supplier },
+	      			'/supplier': { component: supplier,
+	      				subRoutes: {
+	      					'/:id' : {component: supplier}
+	      				}
+	      			},
 	      			'/materialtype': { component: materialtype },
 	      			'/materialinit': { component: materialinit },
 	      			'/unitmanagement': { component: unitmanagement },
