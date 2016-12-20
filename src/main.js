@@ -27,6 +27,7 @@ import storestaff from './views/basedata/storestaff/storestaff.vue'
 import supplier from './views/basedata/supplier/supplier.vue'
 // 物料类别
 import materialtype from './views/basedata/materialtype/materialtype.vue'
+import materialright from './views/basedata/materialtype/materialright.vue'
 // 初始化物料信息
 import materialinit from './views/basedata/materialinit/materialinit.vue'
 // 单位管理
@@ -82,7 +83,11 @@ router.map({
 	      					'/:id' : {component: supplier}
 	      				}
 	      			},
-	      			'/materialtype': { component: materialtype },
+	      			'/materialtype': { component: materialtype,
+	      				subRoutes: {
+	      					'/:type' : {component: materialright}
+	      				}
+	      			},
 	      			'/materialinit': { component: materialinit },
 	      			'/unitmanagement': { component: unitmanagement },
 	      			'/permissions': { component: permissions },

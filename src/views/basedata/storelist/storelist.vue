@@ -1,7 +1,11 @@
 <template>
   <div class="table-responsive">
-		<vu-storelistleft  class="table-allot"></vu-storelistleft>
-    <router-view class="register-right"></router-view>
+    <div class="table-allot">
+        <vu-storelistleft></vu-storelistleft>
+    </div>
+    <div class="register-right">
+        <router-view></router-view>
+    </div>
   </div>
 </template>
 
