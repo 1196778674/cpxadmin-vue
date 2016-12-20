@@ -32,9 +32,9 @@ export default {
   name: 'header',
 
   data () {
-  	this.$http.jsonp('http://192.168.1.12/bbb',{} ,{jsonp: 'flightHandler'}).then(function(res){
-  		this.user = res.data.name;
-  	});
+  	// this.$http.jsonp('http://192.168.1.12/bbb',{} ,{jsonp: 'flightHandler'}).then(function(res){
+  	// 	this.user = res.data.name;
+  	// });
     return {
     	title: '厨品秀商户管理中心',
     	user: self.user,

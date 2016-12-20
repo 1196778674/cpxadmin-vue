@@ -703,3 +703,43 @@ body{
 	padding: 4px 7px;
 	font-size: 12px;
 }
+/* 权限设置 */
+.per-left{
+
+}
+.per-left h4{
+	padding: 5px 0px 5px 20px;
+}
+.per-left ul{
+	margin-bottom: 0px;
+}
+.per-left ul li{
+	padding: 0px;
+	line-height: 40px;
+	padding-left: 20px;
+}
+.per-left ul li a{
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+.per-top{
+	margin-top: 10px;
+}
+.per-top ul{
+	overflow: hidden;
+	line-height: 50px;
+	padding: 0px 30px;
+}
+.per-top ul li{
+	float: left;
+	margin-right: 15px;
+}
+.per-top ul li a{
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+.per-body{
+
+}

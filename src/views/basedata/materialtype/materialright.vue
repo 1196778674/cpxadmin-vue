@@ -4,9 +4,9 @@
     	<div class="btn-group btn-event">
       		<a class="btn btn-danger dishes-but register-but" data-toggle="modal" href='#remove-list'>移除</a>
       		<a class="btn btn-default dishes-but register-but" data-toggle="modal" href='#add-list-staff' @click="showStaffList">添加</a>
-		</div>
-  	</div>
-  	<div class="store-list-right">
+		  </div>
+	</div>
+	<div class="store-list-right">
 		<ul>
 			<li v-for="item in list">
 				<label>

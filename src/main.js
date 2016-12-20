@@ -34,6 +34,7 @@ import materialinit from './views/basedata/materialinit/materialinit.vue'
 import unitmanagement from './views/basedata/unitmanagement/unitmanagement.vue'
 // 权限设置
 import permissions from './views/basedata/permissions/permissions.vue'
+import permissionright from './views/basedata/permissions/perbody.vue'
 
 // 库房
 import warehouse from './views/warehouse/warehouse.vue'
@@ -90,7 +91,15 @@ router.map({
 	      			},
 	      			'/materialinit': { component: materialinit },
 	      			'/unitmanagement': { component: unitmanagement },
-	      			'/permissions': { component: permissions },
+	      			'/permissions': { component: permissions,
+	      				subRoutes: {
+	      					'/:type' : {component: permissionright,
+	      						subRoutes: {
+			      					'/:typeChild' : {component: materialright}
+			      				}
+	      					}
+	      				}
+	      			},
 	      		}
 	      	}
 	    }
