@@ -683,3 +683,23 @@ body{
 	padding: 15px;
 	text-align: right;
 }
+
+/* 计量单位 */
+.unit-list{
+
+}
+.unit-list .unit{
+	border-bottom: 1px solid #dedede;
+}
+.unit-list .units{
+
+}
+.unit-list .form-group{
+	padding: 10px;
+	border-bottom: 1px solid #dedede;
+	margin-bottom: 0px;
+}
+.unit-list .form-group .btn{
+	padding: 4px 7px;
+	font-size: 12px;
+}
