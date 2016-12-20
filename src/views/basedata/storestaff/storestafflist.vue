@@ -34,15 +34,15 @@
             <td>{{item.deparement}}</td>
             <td>
                 <div class="admin-change">
-                    <div class="checkbtn">
+                    <div class="checkbtn" @click="openOrClose(item.status)">
                       <span v-if="item.status" class="admin-open">启用</span>
                       <span v-else>停用</span>
                     </div>
                 </div>
             </td>
             <td>
-                <a class="admin-make" role="button" data-toggle="modal" href="#add-eidt-Staff" @click="edit(item.id)">{{item.change}}</a>
-                <a class="admin-make" role="button" data-toggle="modal" href="#delete-Staff" @click="remove(item.id)">{{item.delete}}</a>
+                <a class="admin-make" role="button" data-toggle="modal" href="#add-eidt-staff" @click="edit(item.id)">{{item.change}}</a>
+                <a class="admin-make" role="button" data-toggle="modal" href="#delete-staff" @click="getDeleteId(item.id)">{{item.delete}}</a>
             </td>
         </tr>
     </tbody>
@@ -50,7 +50,7 @@
 </div>
 
 <!-- 添加、编辑模板 start -->
-<div class="modal fade" id="add-eidt-Staff">
+<div class="modal fade" id="add-eidt-staff">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -83,8 +83,55 @@
           <div class="col-sm-10" style="width:79.833333%">
             <input type="text" class="form-control" v-model="addForm.name" value="{{addForm.name}}" id="" placeholder="">
           </div>
+        </div>
       </div>
-
+      <div class="form-group gower-group in-store">
+          <label for="inputEmail3" class="col-sm-2 control-label gower inputs"><span>*</span>所属部门:</label>
+          <div class="col-sm-10">
+            <li>
+              <label>
+                <input type="checkbox" name="" value="">全选
+              </label>
+            </li>
+            <ul>
+              <li>
+              <label>
+                <input type="checkbox" name="" value="">小灰灰
+              </label>
+            </li>
+            <li>
+              <label>
+                <input type="checkbox" name="" value="">小灰灰
+              </label>
+            </li>
+            <li>
+              <label>
+                <input type="checkbox" name="" value="">小灰灰
+              </label>
+            </li>
+            <li>
+              <label>
+                <input type="checkbox" name="" value="">小灰灰
+              </label>
+            </li>
+            <li>
+              <label>
+                <input type="checkbox" name="" value="">小灰灰
+              </label>
+            </li>
+            <li>
+              <label>
+                <input type="checkbox" name="" value="">小灰灰
+              </label>
+            </li>
+            <li>
+              <label>
+                <input type="checkbox" name="" value="">小灰灰
+              </label>
+            </li>
+            </ul>
+          </div>
+      </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default kind-sure" data-dismiss="modal">关闭</button>
         <button type="button" class="btn btn-primary kind-sure" data-dismiss="modal" @click="addStaff">{{text.btn}}</button>
@@ -94,11 +141,11 @@
 </div>
 <!-- 添加、编辑模板 end -->
 <!-- 删除模板 start -->
-<div class="modal fade bs-example-modal-sm" id="delete-Staff">
+<div class="modal fade" id="delete-staff">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <button type="button" class="close" href="#add-eidt-Staff" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <button type="button" class="close" href="#delete-staff" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h4 class="modal-title">{{text.remove}}</h4>
       </div>
       <div class="modal-body">
@@ -106,7 +153,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-        <button type="button" class="btn btn-danger" data-dismiss="modal" @click="addStaff">{{text.remove}}</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal" @click="remove">{{text.remove}}</button>
       </div>
     </div>
   </div>
@@ -134,7 +181,10 @@ export default {
         tel: '',
         selected: ''
       },
-      pagination: ''
+      // 页码
+      pagination: '',
+      // delete id
+      deleteId: ''
     };
   },
   created: function(){
@@ -157,6 +207,10 @@ export default {
         tel: '',
         selected: ''
       };
+    },
+    // 启用或关闭状态
+    openOrClose: function(status){
+      console.log(status);
     },
     // 添加员工
     addStaff: function(){
@@ -187,10 +241,36 @@ export default {
       this.addForm.tel = '15222347690';
       this.addForm.selected = '2';
     },
+    // 获取删除id
+    getDeleteId: function(id){
+      this.deleteId = id;
+    },
     // 删除
-    remove: function(id){
-      console.log(id);
+    remove: function(){
+      console.log(this.deleteId);
     }
   },
 };
 </script>
+
+<style lang="css" scoped>
+.in-store{
+  height: auto;
+  min-height: 32px;
+  overflow: hidden;
+}
+.in-store .col-sm-10{
+  width:79.833333%;
+  padding-top: 8px;
+}
+.in-store .col-sm-10 ul{
+  overflow: hidden;
+}
+.in-store .col-sm-10 ul li{
+  float: left;
+  margin-right: 10px;
+}
+.in-store .col-sm-10 input[type=checkbox]{
+  margin-right: 5px;
+}
+</style>
