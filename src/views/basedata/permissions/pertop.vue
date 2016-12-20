@@ -1,8 +1,15 @@
 <template>
 	<div class="register-top">
+		<button type="button" class="btn btn-primary save">保存</button>
     	<ul>
     		<li>
     			<a href="#" v-link="{path: '/home/permissions/' + type + '/' + 1}" @click="changeTypes(11)">基础信息</a>
+    		</li>
+    		<li>
+    			<a href="#" v-link="{path: '/home/permissions/' + type + '/' + 2}" @click="changeTypes(11)">基础信息</a>
+    		</li>
+    		<li>
+    			<a href="#" v-link="{path: '/home/permissions/' + type + '/' + 3}" @click="changeTypes(11)">基础信息</a>
     		</li>
     	</ul>
 	</div>
@@ -50,5 +57,10 @@ export default {
 .store-list-right ul li{
   float: left;
   margin-right: 15px;
+}
+.save{
+	float: right;
+	margin-top: 8px;
+	margin-right: 20px;
 }
 </style>

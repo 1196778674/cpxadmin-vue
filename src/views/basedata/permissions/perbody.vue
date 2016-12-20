@@ -28,10 +28,10 @@ export default {
   },
   events: {
   	type: function(type){
-  		console.log(this);
+  		console.log(this.$route.params);
   	},
   	typeChild: function(typeChild){
-  		console.log(this);
+  		console.log(this.$route.params);
   	}
   },
 };
