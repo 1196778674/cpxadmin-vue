@@ -9,7 +9,7 @@
       </div>
     </form>
     <div class="btn-group dishes-group">
-      <button type="button" class="btn btn-default dishes-but" data-toggle="dropdown">
+      <button type="button" class="btn btn-default dishes-but" data-toggle="modal" href="#add-eidt-Staff" @click='changeModelText' data-toggle="dropdown">
         新增员工
       </button>
     </div>
@@ -41,8 +41,8 @@
                 </div>
             </td>
             <td>
-                <a class="admin-make" role="button" data-toggle="modal" data-id="{{item.id}}" href="#add-eidt-Staff" @click="edit($event)">{{item.change}}</a>
-                <a class="admin-make" role="button" data-toggle="modal" data-id="{{item.id}}" href="#delete-Staff" @click="remove($event)">{{item.delete}}</a>
+                <a class="admin-make" role="button" data-toggle="modal" href="#add-eidt-Staff" @click="edit(item.id)">{{item.change}}</a>
+                <a class="admin-make" role="button" data-toggle="modal" href="#delete-Staff" @click="remove(item.id)">{{item.delete}}</a>
             </td>
         </tr>
     </tbody>
@@ -58,32 +58,33 @@
         <h4 class="modal-title">{{text.title}}</h4>
       </div>
       <div class="modal-body">
-        <div class="form-group kind-group">
-          <label for="" class="col-sm-3 control-label"><span>*</span>分类名称:</label>
-          <div class="col-sm-6">
+        <div class="form-group gower-group">
+          <label for="inputEmail3" class="col-sm-2 control-label gower inputs"><span>*</span>员工编号:</label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" v-model="addForm.name" value="{{addForm.name}}" id="" placeholder="">
+          </div>
+          <label for="inputEmail3" class="col-sm-2 control-label gower inputs"><span>&nbsp;&nbsp;&nbsp;&nbsp;*</span>手机号:</label>
+          <div class="col-sm-4">
             <input type="text" class="form-control" v-model="addForm.name" value="{{addForm.name}}" id="" placeholder="">
           </div>
         </div>
-        <div class="form-group kind-group">
-          <label for="" class="col-sm-3 control-label"><span>*</span>分类编号:</label>
-          <div class="col-sm-6">
-            <input type="text" class="form-control" v-model="addForm.num" value="{{addForm.num}}" id="" placeholder="">
+        <div class="form-group gower-group">
+          <label for="inputEmail3" class="col-sm-2 control-label gower inputs"><span>*</span>员工姓名:</label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" v-model="addForm.name" value="{{addForm.name}}" id="" placeholder="">
+          </div>
+          <label for="inputEmail3" class="col-sm-2 control-label gower inputs"><span>&nbsp;*</span>登录密码:</label>
+          <div class="col-sm-4">
+            <input type="text" class="form-control" v-model="addForm.name" value="{{addForm.name}}" id="" placeholder="">
           </div>
         </div>
-        <div class="form-group kind-group">
-          <label for="" class="col-sm-3 control-label"><span>*</span>出品部门:</label>
-          <div class="col-sm-6">
-            <select class="form-control" v-model="addForm.selected">
-                <option value="0">请选择</option>
-                <option value="1">凉菜房</option>
-                <option value="2">收   银</option>
-                <option value="3">烤鸭房</option>
-                <option value="4">酒   吧</option>
-                <option value="5">面点房</option>
-              </select>
+        <div class="form-group gower-group">
+          <label for="inputEmail3" class="col-sm-2 control-label gower inputs"><span>*</span>备注信息:</label>
+          <div class="col-sm-10" style="width:79.833333%">
+            <input type="text" class="form-control" v-model="addForm.name" value="{{addForm.name}}" id="" placeholder="">
           </div>
-        </div>
       </div>
+
       <div class="modal-footer">
         <button type="button" class="btn btn-default kind-sure" data-dismiss="modal">关闭</button>
         <button type="button" class="btn btn-primary kind-sure" data-dismiss="modal" @click="addStaff">{{text.btn}}</button>
@@ -131,7 +132,7 @@ export default {
         num: '',
         name: '',
         tel: '',
-        selected: '3'
+        selected: ''
       },
       pagination: ''
     };
@@ -153,7 +154,8 @@ export default {
       this.addForm = {
         num: '',
         name: '',
-        tel: ''
+        tel: '',
+        selected: ''
       };
     },
     // 添加员工
@@ -176,17 +178,17 @@ export default {
       });
     },
     // 修改
-    edit: function(e){
-      var id = $(e.target).data('id');
+    edit: function(id){
+      console.log(id);
       this.text.title = '编辑';
       this.text.btn = '保存';
       this.addForm.num = '100';
       this.addForm.name = '刘飞',
       this.addForm.tel = '15222347690';
+      this.addForm.selected = '2';
     },
     // 删除
-    remove: function(e){
-      var id = $(e.target).data('id');
+    remove: function(id){
       console.log(id);
     }
   },

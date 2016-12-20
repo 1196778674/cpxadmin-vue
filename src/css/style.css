@@ -308,6 +308,10 @@ body{
 	font-size: 12px;
 	line-height: 2.4;
 	width: inherit;
+	padding-right: 0px;
+}
+.gower.inputs{
+	line-height: 3;
 }
 .gower-group{
 	height: 32px;

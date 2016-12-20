@@ -8,7 +8,7 @@ module.exports = {
   },
   output: {
     path: './build',
-    publicPath: 'cpxadmin-vue/build/',
+    // publicPath: 'build/',
     filename: 'bundle[hash].js'
   },
   module: {
