@@ -73,13 +73,13 @@
         <div class="form-group kind-group">
           <label for="" class="col-sm-3 control-label"><span>*</span>出品部门:</label>
           <div class="col-sm-6">
-            <select class="form-control">
-                <option>请选择</option>
-                <option>凉菜房</option>
-                <option>收   银</option>
-                <option>烤鸭房</option>
-                <option>酒   吧</option>
-                <option value="">面点房</option>
+            <select class="form-control" v-model="addForm.selected">
+                <option value="0">请选择</option>
+                <option value="1">凉菜房</option>
+                <option value="2">收   银</option>
+                <option value="3">烤鸭房</option>
+                <option value="4">酒   吧</option>
+                <option value="5">面点房</option>
               </select>
           </div>
         </div>
@@ -130,7 +130,8 @@ export default {
       addForm: {
         num: '',
         name: '',
-        tel: ''
+        tel: '',
+        selected: '3'
       },
       pagination: ''
     };
