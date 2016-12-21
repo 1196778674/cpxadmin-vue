@@ -15,6 +15,7 @@ export default {
   data () {
     return {
     	list: '',
+      type: '',
     	typeChild: ''
     };
   },
@@ -31,7 +32,6 @@ export default {
   methods: {
   	// 切换类别
     changeType: function(id){
-      // 传递id到父级组件
       this.$dispatch("type", id);
     }
   }

@@ -34,8 +34,7 @@ export default {
   },
   events: {
     type: function(type){
-      	// 传递type到right子组件
-      	this.$broadcast('type', type);
+    	this.$broadcast('type', type);
     },
     typeChild: function(typeChild){
     	this.$broadcast('typeChild', typeChild);

@@ -23,7 +23,8 @@ export default {
   data () {
     return {
     	list: '',
-    	type: '0'
+    	type: '0',
+      typeChild: '0'
     };
   },
   created: function(){

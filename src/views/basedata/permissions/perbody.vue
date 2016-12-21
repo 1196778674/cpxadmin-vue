@@ -19,6 +19,8 @@ export default {
   data () {
     return {
     	list: '',
+      type: '0',
+      typeChild: '0'
     };
   },
   created: function(){
@@ -28,10 +30,20 @@ export default {
   },
   events: {
   	type: function(type){
-  		console.log(this.$route.params);
+      this.type = type;
+      var subData = {
+        type: type,
+        typeChild: this.typeChild
+      };
+  		console.log(subData);
   	},
   	typeChild: function(typeChild){
-  		console.log(this.$route.params);
+      this.typeChild = typeChild;
+  		var subData = {
+        type: this.type,
+        typeChild: typeChild
+      };
+      console.log(subData);
   	}
   },
 };
