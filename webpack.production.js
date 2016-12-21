@@ -1,5 +1,5 @@
 var webpack = require('webpack')
-var ExtractTextPlugin = require('extract-text-webpack-plugin')
+// var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
@@ -35,9 +35,9 @@ module.exports = {
         warnings: false
       }
     }),
-    new ExtractTextPlugin('[name].min.css', {
-      allChunks: true
-    }),
+    // new ExtractTextPlugin('[name].min.css', {
+    //   allChunks: true
+    // }),
     new HtmlWebpackPlugin({
       filename: './index.html',
       template: './index.html',
@@ -46,7 +46,7 @@ module.exports = {
   ],
   vue: {
     loaders: {
-      css: ExtractTextPlugin.extract('css')
+      // css: ExtractTextPlugin.extract('css')
     }
   }
 }
