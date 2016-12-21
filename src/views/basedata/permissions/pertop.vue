@@ -3,13 +3,13 @@
 		<button type="button" class="btn btn-primary save">保存</button>
     	<ul>
     		<li>
-    			<a href="#" v-link="{path: '/home/permissions/' + type + '/' + 1}" @click="changeTypes(11)">基础信息</a>
+    			<a href="#" v-link="{path: '/home/permissions/' + type + '/' + 1}" @click="changeTypes(1)">基础信息</a>
     		</li>
     		<li>
-    			<a href="#" v-link="{path: '/home/permissions/' + type + '/' + 2}" @click="changeTypes(11)">基础信息</a>
+    			<a href="#" v-link="{path: '/home/permissions/' + type + '/' + 2}" @click="changeTypes(2)">基础信息</a>
     		</li>
     		<li>
-    			<a href="#" v-link="{path: '/home/permissions/' + type + '/' + 3}" @click="changeTypes(11)">基础信息</a>
+    			<a href="#" v-link="{path: '/home/permissions/' + type + '/' + 3}" @click="changeTypes(3)">基础信息</a>
     		</li>
     	</ul>
 	</div>
