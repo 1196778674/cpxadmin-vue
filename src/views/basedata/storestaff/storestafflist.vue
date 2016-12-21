@@ -219,6 +219,10 @@ export default {
     // 搜索
     search: function(){
       var self = this;
+      if (!this.subdata) {
+        parent.Public.tips.init({content: '请输入搜索内容'});
+        return false;
+      };
       console.log(this.subdata);
       self.getList(self.subdata);
     },
