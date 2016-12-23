@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack-dev-server --inline --hot --quiet",
-    // "dev": "webpack-dev-server --progress --colors --host management.com --port 1234 --inline --hot --quiet",
+    "dev": "webpack-dev-server --progress --colors --host test.com --port 8800 --inline --hot --quiet",
     "build": "rm -rf build/* && webpack --progress --hide-modules --config webpack.production.js"
   },
   "dependencies": {
