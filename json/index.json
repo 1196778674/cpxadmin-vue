@@ -1,0 +1,35 @@
+{"list": [
+    {
+        "id": 210,
+        "userId": 6,
+        "shopId": 127,
+        "identifier": "员工编号",
+        "role": 1,
+        "nickname": "小胖胖",
+        "comment": "员工备注",
+        "updatedAt": "1481961396",
+        "createdAt": "1472787195",
+        "deletedAt": null,
+        "phone": "15832190667",
+        "parentId": 88,
+        "shopName": "哈哈",
+        "address": "巴黎",
+        "city": "北京",
+        "district": "东城区",
+        "shopCount": 0,
+        "createTime": "2016-09-02",
+        "status": "已开启",
+        "moduleList":[
+        {
+            "id": 3,
+            "name": "库房系统",
+            "modeleStatus": 1
+          },
+          {
+            "id": 4,
+            "name": "财务系统",
+            "modeleStatus": 0
+          }
+        ]
+      }]
+}

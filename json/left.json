@@ -1,0 +1,44 @@
+[
+    {
+        "id": "1",
+        "name": "部门设置",
+        "url": "/home/storelist",
+        "active": true
+    },
+    {
+        "id": "2",
+        "name": "门店员工",
+        "url": "/home/storestaff",
+        "active": false
+    },
+    {
+        "id": "3",
+        "name": "供应商",
+        "url": "/home/supplier",
+        "active": false
+    },
+    {
+        "id": "4",
+        "name": "物料类别",
+        "url": "/home/materialtype",
+        "active": false
+    },
+    {
+        "id": "5",
+        "name": "初始化物料信息",
+        "url": "/home/materialinit",
+        "active": false
+    },
+    {
+        "id": "6",
+        "name": "计量单位管理",
+        "url": "/home/unitmanagement",
+        "active": false
+    },
+    {
+        "id": "7",
+        "name": "权限管理",
+        "url": "/home/permissions",
+        "active": false
+    }
+]

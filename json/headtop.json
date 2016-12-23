@@ -1,0 +1,26 @@
+[
+    {
+        "id": "0",
+        "name": "基础信息",
+        "active": true,
+        "url" : "/home"
+    },
+    {
+        "id": "1",
+        "name": "库房信息",
+        "active": false,
+        "url" : "/warehouse"
+    },
+    {
+        "id": "2",
+        "name": "财务系统",
+        "active": false,
+        "url" : "/store"
+    },
+    {
+        "id": "3",
+        "name": "收银系统",
+        "active": false,
+        "url" : "/store"
+    }
+]
