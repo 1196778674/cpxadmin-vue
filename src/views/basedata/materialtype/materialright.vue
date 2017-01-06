@@ -1,23 +1,23 @@
 <template>
 	<div class="register-top">
-    	<h5>水果类</h5>
+    	<h5>{{title}}</h5>
     	<div class="btn-group btn-event">
       		<a class="btn btn-danger dishes-but register-but" data-toggle="modal" href='#remove-list'>移除</a>
-      		<a class="btn btn-default dishes-but register-but" data-toggle="modal" href='#add-list-staff' @click="showStaffList">添加</a>
+      		<a class="btn btn-default dishes-but register-but" data-toggle="modal" href='#add-list-staff'>添加</a>
 		  </div>
 	</div>
 	<div class="store-list-right">
 		<ul>
 			<li v-for="item in list">
 				<label>
-          			<input type="checkbox" name="" value="{{item.id}}" v-model="item.checked">
+          	<input type="checkbox" name="" value="{{item.id}}" v-model="item.checked">
 				  	{{item.name}}
         		</label>
 			</li >
 		</ul>
 	</div>
 	<!-- 删除 strat -->
-    <div class="modal fade" id="remove-list">
+    <div class="modal fade tips" id="remove-list">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -25,11 +25,11 @@
             <h4 class="modal-title">移除</h4>
           </div>
           <div class="modal-body">
-            移除操作后，被移除的部门成员将无法操作此部门的业务!
+            确认删除此条数据
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-            <button type="button" class="btn btn-primary" data-dismiss="modal" @click="removeStaff">确认</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal" @click="removeStaff">确认</button>
           </div>
         </div>
       </div>
@@ -44,18 +44,16 @@
             <h4 class="modal-title">添加二级分类</h4>
           </div>
           <div class="modal-body">
-            <ul>
-              <li v-for="staff in staffs">
-                <label>
-                  <input type="checkbox" name="" value="{{staff.id}}" v-model="staff.checked">
-                  {{staff.name}}
-                </label>
-              </li>
-            </ul>
+            <div class="form-group gower-group">
+                <label for="inputEmail3" class="col-sm-2 control-label gower inputs">添加二级类别:</label>
+                <div class="col-sm-10">
+                  <input type="text" name="" class="form-control" value="{{secondCategory}}" v-model="secondCategory">
+                </div>
+              </div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-            <button type="button" class="btn btn-primary" data-dismiss="modal" @click="addStaff">添加</button>
+            <button type="button" class="btn btn-primary" data-dismiss="modal" @click="addSecondCategory">添加</button>
           </div>
         </div>
       </div>
@@ -72,52 +70,70 @@ export default {
 
   data () {
     return {
+      title: '所有类别',
+      type: '',
       checkedall: false,
     	list: '',
-      staffs: ''
+      secondCategory: ''
     };
   },
   created: function(){
-    this.$http.get('../../../../../json/storelistright.json', null).then(function(res){
-      this.list = res.data;
-    });
+    this.getList();
   },
   events: {
     type: function(type){
-      this.subData = {type: type};
-      console.log(this.subData);
+      this.getList({type: type});
+    },
+    title: function(title){
+      this.title = title;
     }
   },
   methods: {
+    // 获取当前列表
+    getList: function(obj){
+      var self = this;
+      var params = {
+        type: self.type
+      };
+      params = $.extend(true, params, obj);
+      parent.Public.Ajax('/material_category_list', params, 'GET', function(res){
+        self.list = res.data;
+      });
+    },
     // 删除员工
     removeStaff: function(){
       var datas = [],
           newList = [];
-      $.each(this.list, function(i, v) {
+      var self = this;
+      $.each(self.list, function(i, v) {
         if (v.checked) {
           datas.push(v.id);
-        } else {
-          newList.push(v);
-        };
+        }
       });
-      console.log(datas);
-      this.list = newList;
-    },
-    // 请求员工列表
-    showStaffList: function(){
-      this.$http.get('../../../../../json/storelistright.json', null).then(function(res){
-        this.staffs = res.data;
+      var params = {
+        ids: datas
+      };
+      parent.Public.Ajax('/material_category_delete', params, 'GET', function(res){
+        $.each(self.list, function(i, v) {
+          if (!v.checked) {
+           newList.push(v);
+          };
+        });
+        self.list = newList;
+        self.secondCategory = '';
       });
     },
-    // 添加员工
-    addStaff: function(){
+    // 添加二级类别
+    addSecondCategory: function(){
       var self = this;
-      $.each(this.staffs, function(i, v) {
-        if (v.checked) {
-          self.list.push({id: v.id, name: v.name});
-        };
+      var params = {
+        name: self.secondCategory,
+        parentId: self.$route.params.type,
+      };
+      parent.Public.Ajax('/material_second_category_set_up', params, 'GET', function(res){
+        self.list = res.data;
+        self.secondCategory = '';
       });
-      this.checkedall = false;
     }
   }
 };

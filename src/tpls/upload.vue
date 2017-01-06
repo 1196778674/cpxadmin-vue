@@ -3,7 +3,7 @@
     <label for="{{ name }}"><input type="file" name="{{ name }}" id="{{ id || name }}" accept="{{ accept }}" @click="fileInputClick" @change="fileInputChange" multiple="{{ multiple }}">
       <slot></slot>
     </label>
-    <!-- <button type="button" v-on:click="fileUpload">{{ buttonText }}</button> -->
+    <button type="button" v-on:click="fileUpload">{{ buttonText }}</button>
   </div>
 </template>
 
@@ -17,6 +17,9 @@ export default {
     name: {
       type: String,
       required: true
+    },
+    exceltype: {
+      type: String
     },
     id: String,
     action: {
@@ -81,6 +84,11 @@ export default {
             var res = JSON.parse(xhr.responseText);
             this.$dispatch('onFileUpload', file, res);
             resolve(file);
+            var res = JSON.parse(xhr.responseText);
+            this.$dispatch('onFileAfter', res);
+            // 清空file
+            var ident = this.id || this.name;
+            document.getElementById(ident).value = '';
           } else {
             var err = JSON.parse(xhr.responseText);
             err.status = xhr.status;
@@ -97,8 +105,10 @@ export default {
           this.$dispatch('onFileError', file, err);
           reject(err);
         }.bind(this);
-
-        xhr.open(this.method || "POST", this.action, true);
+        var shopId= $cookie('shopId'),
+            token = $cookie('token');
+        var action = parent.Public.domain() + this.action + '?shopId=' + shopId + '&excelType=' + this.exceltype + '&token=' + token;
+        xhr.open(this.method || "POST", action, true);
         if (this.headers) {
           for(var header in this.headers) {
             xhr.setRequestHeader(header, this.headers[header]);

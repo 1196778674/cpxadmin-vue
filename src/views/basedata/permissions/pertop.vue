@@ -1,15 +1,8 @@
 <template>
 	<div class="register-top">
-		<button type="button" class="btn btn-primary save">保存</button>
     	<ul>
-    		<li>
-    			<a href="#" v-link="{path: '/home/permissions/' + type + '/' + 1}" @click="changeTypes(1)">基础信息</a>
-    		</li>
-    		<li>
-    			<a href="#" v-link="{path: '/home/permissions/' + type + '/' + 2}" @click="changeTypes(2)">基础信息</a>
-    		</li>
-    		<li>
-    			<a href="#" v-link="{path: '/home/permissions/' + type + '/' + 3}" @click="changeTypes(3)">基础信息</a>
+    		<li v-for="item in list">
+    			<a href="#" :class="{active: isActive == item.type}" v-link="{path: '/home/permissions/' + left + '/' + item.type}" @click="changeTypes(item.type)">{{item.name}}</a>
     		</li>
     	</ul>
 	</div>
@@ -23,22 +16,24 @@ export default {
   data () {
     return {
     	list: '',
-    	type: '0',
-      typeChild: '0'
+    	left: '',
+      isActive: ''
     };
   },
-  created: function(){
-
-  },
   events: {
-  	type: function(type){
-  		this.type = type;
-  	},
+    topList: function(list){
+      this.list = list;
+      this.isActive = this.$route.params.typeChild || this.list[0].type;
+    },
+    leftItem: function(id){
+      this.left = id;
+    }
   },
   methods: {
   	changeTypes: function(id){
-  		this.$dispatch("typeChild", id);
-  	}
+  		this.$dispatch("topItem", id);
+      this.isActive = id;
+  	},
   },
 };
 </script>
@@ -58,10 +53,5 @@ export default {
 .store-list-right ul li{
   float: left;
   margin-right: 15px;
-}
-.save{
-	float: right;
-	margin-top: 8px;
-	margin-right: 20px;
 }
 </style>

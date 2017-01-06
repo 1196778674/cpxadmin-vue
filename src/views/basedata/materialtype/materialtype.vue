@@ -21,8 +21,10 @@ export default {
   },
   events: {
     type: function(type){
-      // 传递type到right子组件
       this.$broadcast('type', type);
+    },
+    title: function(title){
+      this.$broadcast('title', title);
     }
   },
   components: {
@@ -36,9 +38,9 @@ export default {
   padding-top: 15px;
 }
 .table-allot{
-  width: 15%;
+  width: 20%;
 }
 .register-right{
-  width: 85%;
+  width: 80%;
 }
 </style>

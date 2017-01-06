@@ -1,8 +1,10 @@
 <template>
   <div class="admin-primary">
     <ul>
-      <li v-for="item in headtop" :class="{'active': item.active}" @click="isActive($index)" type="button" class="btn btn-default admin-but" data-toggle="dropdown">
-        <a href="#" :class="{'active': item.active}" v-link="{path: item.url}">{{ item.name }}</a>
+      <li v-for="(i,item) in headtop" :class="{'active': isActive == i}" @click="cActive($index)" type="button" class="btn btn-default admin-but" data-toggle="dropdown">
+        <a v-if="item.id == '0'" v-link="{path: item.url + '/storelist/0', query:{id: 0}}">{{ item.name }}</a>
+        <a v-if="item.id == '3'" v-link="{path: item.url + '/initializeStockInformation', query:{id: 3}}">{{ item.name }}</a>
+        <a v-if="item.id == '2'" v-link="{path: item.url + '/classification', query:{id: 2}}">{{ item.name }}</a>
       </li>
     </ul>
  </div>
@@ -15,21 +17,33 @@ export default {
 
   data () {
     return {
-    	headtop: ''
+    	headtop: '',
+      isActive: '0'
     };
   },
   created: function(){
-    console.log(this.$route.query);
-    this.$http.get('../../json/headtop.json').then(function(res){
-      this.headtop = res.data;
+    var self = this;
+    var params = {
+      shopId: this.$route.query.shopId
+    };
+    parent.Public.Ajax('/top', params, 'GET', function(res){
+      self.headtop = res.data;
     });
+    switch (self.$route.name) {
+      case 'home':
+        self.isActive = 0;
+        break;
+      case 'warehouse':
+        self.isActive = 1;
+        break;
+      case 'cashier':
+        self.isActive = 2;
+        break;
+    }
   },
   methods: {
-    isActive: function(i){
-      $.each(this.headtop, function(i, val) {
-        val.active = false;
-      });
-      this.headtop[i].active = true;
+    cActive: function(i){
+      this.isActive = i;
     }
   },
 };

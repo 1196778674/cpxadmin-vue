@@ -1,7 +1,7 @@
 <template>
 	<ul>
-		<li v-for="item in list">
-			<a href="#" v-link="{path: '/home/permissions/' + item.id + '/' +typeChild}" @click="changeType(item.id)">{{item.name}}
+		<li v-for="item in list" :class="{active: isActive == item.id}">
+			<a href="#" v-link="{path: '/home/permissions/' + item.id + '/' +top}" @click="changeType(item.id)">{{item.name}}
       		</a>
 		</li>
 	</ul>
@@ -15,24 +15,24 @@ export default {
   data () {
     return {
     	list: '',
-      type: '',
-    	typeChild: ''
+    	top: '',
+      isActive: ''
     };
   },
-  created: function(){
-  	this.$http.get('../../../../../json/storelistleft.json', null).then(function(res){
-      this.list = res.data;
-    });
-  },
   events: {
-  	typeChild: function(typeChild){
-  		this.typeChild = typeChild;
-  	}
+    leftList: function(list){
+      this.list = list;
+    },
+    topItem: function(id){
+      this.top = id;
+      this.isActive = this.$route.params.type || this.list[0].id;
+    }
   },
   methods: {
   	// 切换类别
     changeType: function(id){
-      this.$dispatch("type", id);
+      this.$dispatch("leftItem", id);
+      this.isActive = id;
     }
   }
 };

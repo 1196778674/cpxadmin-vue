@@ -1,6 +1,6 @@
 <template>
 <section class="admin-main">
-	<vu-left url="../../json/leftwarehouse.json" class="col-xs-2 admin-left-menu"></vu-left>
+	<vu-left class="col-xs-2 admin-left-menu"></vu-left>
 	<vu-right class="col-xs-10 admin-right-main"></vu-right>
 </section>
 </template>

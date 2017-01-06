@@ -1,3 +1,7 @@
+exports.domain = function () {
+    return 'http://management-api.test.chupinxiu.com/';
+}
+// tips提示框
 exports.tips = {
 	init: function(obj){
 		var objs = $.extend(true, this.default(), obj);
@@ -41,4 +45,51 @@ exports.tips = {
 			hideTime: '2000'
 		}
 	},
+}
+// ajax
+exports.Ajax = function(url, param, type, callback){
+	var url = parent.Public.domain() + url;
+	var params = {
+		token: $cookie('token'),
+		userId: $cookie('userid'),
+		shopId: $cookie('shopId'),
+		shop_id: $cookie('shopId')
+	};
+	params = $.extend(true, param, params);
+
+	$.ajax({
+		url: url,
+		type: type || 'post',
+		dataType: 'json',
+		data: params || null,
+		beforeSend: function(){
+			$('body').append('<div class="loading-body"><div class="loading"></div></div>')
+		},
+		success: function(res){
+			$('.loading-body').remove();
+			if (res.code == 0) {
+				callback(res);
+			} else {
+				if (res.code != '10000') {
+					parent.Public.tips.init({content: res.msg});
+				};
+			};
+		},
+		error: function(){
+			$('.loading-body').remove();
+			parent.Public.tips.init({content: '服务器发烧了，稍后重试'});
+		}
+	})
+}
+// 请求省份 缓存本地
+exports.getProvice = function(){
+	$.ajax({
+		url: parent.Public.domain() + '/district_list',
+		type: 'GET',
+		dataType: 'json',
+		data: null,
+		success: function(res){
+			store('provice', res.data);
+		}
+	})
 }

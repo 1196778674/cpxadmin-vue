@@ -1,22 +1,22 @@
 <template>
   <div class="register-top">
-    <h5>收银部</h5>
+    <h5>{{title}}</h5>
     <div class="btn-group btn-event">
       <a class="btn btn-danger dishes-but register-but" data-toggle="modal" href='#remove-list'>移除</a>
-      <a class="btn btn-default dishes-but register-but" data-toggle="modal" href='#add-list-staff' @click="showStaffList">添加</a>
+      <a class="btn btn-default dishes-but register-but" data-toggle="modal" href='#add-list-staff' @click="serachStaff">添加</a>
     </div>
   </div>
 	<div class="store-list-right">
 		<ul>
 			<li v-for="item in list">
 				<label>
-          <input type="checkbox" name="" value="{{item.id}}" v-model="item.checked">
-				  {{item.name}}
+          <input type="checkbox" name="" value="{{item.userId}}" v-model="item.checked">
+				  {{item.nickname}}
         </label>
 			</li >
 		</ul>
     <!-- 删除 strat -->
-    <div class="modal fade" id="remove-list">
+    <div class="modal fade tips" id="remove-list">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -28,7 +28,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-            <button type="button" class="btn btn-primary" data-dismiss="modal" @click="removeStaff">确认</button>
+            <button type="button" class="btn btn-danger" data-dismiss="modal" @click="removeStaff">删除</button>
           </div>
         </div>
       </div>
@@ -46,8 +46,8 @@
             <ul>
               <li v-for="staff in staffs">
                 <label>
-                  <input type="checkbox" name="" value="{{staff.id}}" v-model="staff.checked">
-                  {{staff.name}}
+                  <input type="checkbox" name="" value="{{staff.userId}}" v-model="staff.checked">
+                  {{staff.nickname}}
                 </label>
               </li>
             </ul>
@@ -74,50 +74,77 @@ export default {
     return {
       checkedall: false,
     	list: '',
-      staffs: ''
+      staffs: '',
+      title: '选择部门'
     };
   },
   created: function(){
-    this.$http.get('../../../../../json/storelistright.json', null).then(function(res){
-      this.list = res.data;
-    });
+    this.showStaffList(this.$route.params.type);
   },
   events: {
     type: function(type){
-      this.subData = {type: type};
-      console.log(this.subData);
+      this.showStaffList(type);
+    },
+    title: function(title){
+      this.title = title;
     }
   },
   methods: {
     // 删除员工
     removeStaff: function(){
-      var datas = [],
-          newList = [];
+      var datas = [];
       $.each(this.list, function(i, v) {
         if (v.checked) {
-          datas.push(v.id);
-        } else {
-          newList.push(v);
-        };
+          datas.push(v.userId);
+        }
       });
-      console.log(datas);
-      this.list = newList;
+      var self = this;
+      var params = {
+        deptId: self.$route.params.type,
+        userList: datas
+      };
+      parent.Public.Ajax('/del_department', params, 'GET', function(res){
+        self.showStaffList(self.$route.params.type);
+      });
     },
     // 请求员工列表
-    showStaffList: function(){
-      this.$http.get('../../../../../json/storelistright.json', null).then(function(res){
-        this.staffs = res.data;
+    showStaffList: function(type){
+      var self = this;
+      var params = {
+        deptId: type,
+      };
+      parent.Public.Ajax('/department_user', params, 'GET', function(res){
+        self.list = res.data;
+      });
+    },
+    // 搜索员工
+    serachStaff: function(){
+      var self = this;
+      var params = {
+        deptId: self.$route.params.type,
+      };
+      parent.Public.Ajax('/department_user', params, 'GET', function(res){
+        self.staffs = res.data;
       });
     },
     // 添加员工
     addStaff: function(){
-      var self = this;
-      $.each(this.staffs, function(i, v) {
+      var self = this,
+          userList = [];
+      $.each(self.staffs, function(i, v) {
         if (v.checked) {
-          self.list.push({id: v.id, name: v.name});
+          userList.push(v.userId);
         };
       });
-      this.checkedall = false;
+      // console.log(userList);
+      // return;
+      var params = {
+        userList: userList,
+        deptId: self.$route.params.type
+      };
+      parent.Public.Ajax('/add_department_user', params, 'GET', function(res){
+        self.showStaffList(self.$route.params.type);
+      });
     }
   }
 };

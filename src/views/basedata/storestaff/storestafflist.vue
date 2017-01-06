@@ -20,29 +20,29 @@
         <tr>
             <th width="10%">员工编号</th>
             <th width="10%">员工姓名</th>
-            <th width="20%">手机号码</th>
-            <th width="22%">所在部门</th>
-            <th width="24%">状态</th>
-            <th width="14%">操作</th>
+            <th width="24%">手机号码</th>
+            <th width="32%">所在部门</th>
+            <!-- <th width="24%">状态</th> -->
+            <th width="24%">操作</th>
         </tr>
     </thead>
     <tbody>
         <tr v-for="item in list">
-            <td>{{item.num}}</td>
-            <td>{{item.name}}</td>
-            <td>{{item.tel}}</td>
-            <td>{{item.deparement}}</td>
-            <td>
+            <td>{{item.identifier}}</td>
+            <td>{{item.nickname}}</td>
+            <td>{{item.user.phone}}</td>
+            <td>{{item.departments}}</td>
+            <!-- <td>
                 <div class="admin-change">
-                    <div class="checkbtn" @click="openOrClose(item.status)">
-                      <span v-if="item.status" class="admin-open">启用</span>
+                    <div class="checkbtn" @click="openOrClose(item.user.status)">
+                      <span v-if="item.user.status" class="admin-open">启用</span>
                       <span v-else>停用</span>
                     </div>
                 </div>
-            </td>
+            </td> -->
             <td>
-                <a class="admin-make" role="button" data-toggle="modal" href="#add-eidt-staff" @click="edit(item.id)">{{item.change}}</a>
-                <a class="admin-make" role="button" data-toggle="modal" href="#delete-staff" @click="getDeleteId(item.id)">{{item.delete}}</a>
+                <a class="admin-make" role="button" data-toggle="modal" href="#add-eidt-staff" @click="edit(item.userId)">修改信息</a>
+                <a class="admin-make" role="button" data-toggle="modal" href="#delete-staff" @click="getDeleteId(item.id)">删除员工</a>
             </td>
         </tr>
     </tbody>
@@ -61,74 +61,46 @@
         <div class="form-group gower-group">
           <label for="inputEmail3" class="col-sm-2 control-label gower inputs"><span>*</span>员工编号:</label>
           <div class="col-sm-4">
-            <input type="text" class="form-control" v-model="addForm.name" value="{{addForm.name}}" id="" placeholder="">
+            <input type="text" class="form-control" v-model="addForm.identifier" value="{{addForm.identifier}}" id="" placeholder="">
           </div>
           <label for="inputEmail3" class="col-sm-2 control-label gower inputs"><span>&nbsp;&nbsp;&nbsp;&nbsp;*</span>手机号:</label>
           <div class="col-sm-4">
-            <input type="text" class="form-control" v-model="addForm.name" value="{{addForm.name}}" id="" placeholder="">
+            <input type="tel" class="form-control" v-model="addForm.phone" placeholder="">
           </div>
         </div>
         <div class="form-group gower-group">
           <label for="inputEmail3" class="col-sm-2 control-label gower inputs"><span>*</span>员工姓名:</label>
           <div class="col-sm-4">
-            <input type="text" class="form-control" v-model="addForm.name" value="{{addForm.name}}" id="" placeholder="">
+            <input type="text" class="form-control" v-model="addForm.nickname" value="{{addForm.nickname}}" id="" placeholder="">
           </div>
           <label for="inputEmail3" class="col-sm-2 control-label gower inputs"><span>&nbsp;*</span>登录密码:</label>
           <div class="col-sm-4">
-            <input type="text" class="form-control" v-model="addForm.name" value="{{addForm.name}}" id="" placeholder="">
+            <input type="text" class="form-control" v-model="addForm.password" value="{{addForm.password}}" id="" placeholder="">
           </div>
         </div>
         <div class="form-group gower-group">
-          <label for="inputEmail3" class="col-sm-2 control-label gower inputs"><span>*</span>备注信息:</label>
+          <label for="inputEmail3" class="col-sm-2 control-label gower inputs">备注信息:</label>
           <div class="col-sm-10" style="width:79.833333%">
-            <input type="text" class="form-control" v-model="addForm.name" value="{{addForm.name}}" id="" placeholder="">
+            <input type="text" class="form-control" v-model="addForm.comment" value="{{addForm.comment}}" id="" placeholder="">
           </div>
         </div>
       </div>
       <div class="form-group gower-group in-store">
           <label for="inputEmail3" class="col-sm-2 control-label gower inputs"><span>*</span>所属部门:</label>
           <div class="col-sm-10">
-            <li>
+            <!-- <li>
               <label>
                 <input type="checkbox" name="" value="">全选
               </label>
-            </li>
+            </li> -->
             <ul>
-              <li>
-              <label>
-                <input type="checkbox" name="" value="">小灰灰
-              </label>
-            </li>
-            <li>
-              <label>
-                <input type="checkbox" name="" value="">小灰灰
-              </label>
-            </li>
-            <li>
-              <label>
-                <input type="checkbox" name="" value="">小灰灰
-              </label>
-            </li>
-            <li>
-              <label>
-                <input type="checkbox" name="" value="">小灰灰
-              </label>
-            </li>
-            <li>
-              <label>
-                <input type="checkbox" name="" value="">小灰灰
-              </label>
-            </li>
-            <li>
-              <label>
-                <input type="checkbox" name="" value="">小灰灰
-              </label>
-            </li>
-            <li>
-              <label>
-                <input type="checkbox" name="" value="">小灰灰
-              </label>
-            </li>
+              <li v-for="(k,v) in addForm.departments">
+                <label class="label-check">
+                  <input type="checkbox" name="" value="{{v.id}}" v-if="v.statusType == 1" checked="checked">
+                  <input v-else type="checkbox" name="" value="{{v.id}}">
+                  {{v.name}}
+                </label>
+              </li>
             </ul>
           </div>
       </div>
@@ -141,7 +113,7 @@
 </div>
 <!-- 添加、编辑模板 end -->
 <!-- 删除模板 start -->
-<div class="modal fade" id="delete-staff">
+<div class="modal fade tips" id="delete-staff">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -176,10 +148,12 @@ export default {
         remove: '删除'
       },
       addForm: {
-        num: '',
-        name: '',
-        tel: '',
-        selected: ''
+        identifier: '',
+        phone: '',
+        nickname: '',
+        password: '',
+        comment: '',
+        departments: ''
       },
       // 页码
       pagination: '',
@@ -197,16 +171,22 @@ export default {
   	}
   },
   methods: {
-    // 修改model文案
+    // 修改model文案/获取部门列表
     changeModelText: function(){
-      this.text.title = '添加';
-      this.text.btn = '添加';
-      this.addForm = {
-        num: '',
-        name: '',
-        tel: '',
-        selected: ''
-      };
+      var self = this;
+      var params = {};
+      parent.Public.Ajax('/department_list', params, 'GET', function(res){
+        self.addForm = {
+          identifier: '',
+          phone: '',
+          nickname: '',
+          password: '',
+          comment: '',
+          departments: res.data
+        };
+      });
+      self.text.title = '添加';
+      self.text.btn = '添加';
     },
     // 启用或关闭状态
     openOrClose: function(status){
@@ -214,36 +194,66 @@ export default {
     },
     // 添加员工
     addStaff: function(){
-      console.log(this.addForm);
+      var self = this;
+      var departments = [];
+      $.each($('.label-check input'), function(i, v) {
+        if ($(v).prop('checked')) {
+          departments.push(v.value);
+        };
+      });
+      var params = {
+        phone: self.addForm.phone,
+        password: self.addForm.password,
+        nickname: self.addForm.nickname,
+        identifier: self.addForm.identifier,
+        departments: departments
+      };
+      if (self.text.title == '编辑') {
+        params = $.extend(true, params, {isEdit: 1});
+      } else {
+        params = $.extend(true, params, {isEdit: 0});
+      };
+      parent.Public.Ajax('/add_shop_user', params, 'GET', function(res){
+          self.list = res.data.list;
+      });
     },
     // 搜索
     search: function(){
       var self = this;
-      if (!this.subdata) {
-        parent.Public.tips.init({content: '请输入搜索内容'});
-        return false;
-      };
       console.log(this.subdata);
       self.getList(self.subdata);
     },
     // 获取列表
-    getList: function(params){
-      var subdata = !params ? null : {params: params};
-      this.$http.get('../../../../json/stafflist.json', subdata).then(function(res){
-        this.list = res.data.list;
-        this.pagination = res.data.pagination;
-        this.$dispatch('pagination', this.pagination);
+    getList: function(page){
+      var self = this;
+      var params = {
+        currentPage: page
+      };
+      parent.Public.Ajax('/shop_user_list', params, 'GET', function(res){
+        self.list = res.data.list;
+        // store('shop_user_list', res.data.list);
+        self.pagination = res.data.totalPages;
+        self.$dispatch('pagination', self.pagination);
       });
     },
     // 修改
     edit: function(id){
-      console.log(id);
-      this.text.title = '编辑';
-      this.text.btn = '保存';
-      this.addForm.num = '100';
-      this.addForm.name = '刘飞',
-      this.addForm.tel = '15222347690';
-      this.addForm.selected = '2';
+      var self = this;
+      var params = {
+        edituserId: id
+      };
+      // var user_list = store('shop_user_list');
+      parent.Public.Ajax('/shop_user_info', params, 'GET', function(res){
+        var datas = res.data;
+        self.text.title = '编辑';
+        self.text.btn = '保存';
+        self.addForm.identifier = datas.identifier,
+        self.addForm.phone = datas.phone,
+        self.addForm.nickname = datas.nickname
+        self.addForm.password = '',
+        self.addForm.comment = datas.comment,
+        self.addForm.departments = datas.deptList
+      });
     },
     // 获取删除id
     getDeleteId: function(id){
@@ -251,7 +261,13 @@ export default {
     },
     // 删除
     remove: function(){
-      console.log(this.deleteId);
+      var self = this;
+      var params = {
+        deluserId: self.deleteId
+      };
+      parent.Public.Ajax('/del_shop_user', params, 'GET', function(res){
+        self.list = res.data.list;
+      });
     }
   },
 };

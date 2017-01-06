@@ -28,6 +28,9 @@ export default {
     type: function(type){
       // 传递type到right子组件
       this.$broadcast('type', type);
+    },
+    title: function(title){
+      this.$broadcast('title', title);
     }
   }
 };

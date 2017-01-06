@@ -31,13 +31,27 @@ export default {
   },
   created: function(){
   	this.bodyheight = ($(window).height() - 140) + 'px';
+    var self = this;
+    var params = {};
+    // 请求左侧列表
+    parent.Public.Ajax('/auth_department_list', params, 'GET', function(res){
+      var leftList = res.data.list;
+      self.$broadcast('leftList', leftList);
+      self.$broadcast('leftItem', leftList[0].id);
+    });
+    // 请求顶部列表
+    parent.Public.Ajax('/auth_opened_module_list', params, 'GET', function(res){
+      var topList = res.data;
+      self.$broadcast('topList', topList);
+      self.$broadcast('topItem', topList[0].type);
+    });
   },
   events: {
-    type: function(type){
-    	this.$broadcast('type', type);
+    leftItem: function(id){
+    	this.$broadcast('leftItem', id);
     },
-    typeChild: function(typeChild){
-    	this.$broadcast('typeChild', typeChild);
+    topItem: function(id){
+    	this.$broadcast('topItem', id);
     }
   },
   components: {
