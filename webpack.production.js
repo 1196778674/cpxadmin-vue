@@ -1,6 +1,6 @@
 var webpack = require('webpack')
-// var ExtractTextPlugin = require('extract-text-webpack-plugin')
 var HtmlWebpackPlugin = require('html-webpack-plugin')
+var CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   entry: {
@@ -8,15 +8,15 @@ module.exports = {
   },
   output: {
     path: './build',
-    // publicPath: 'build/',
-    filename: 'bundle[hash].js'
+    publicPath: './',
+    filename: 'dist/[name][hash].js'
   },
   module: {
     loaders: [
       { test: /\.vue$/, loader: 'vue' },
       { test: /\.js$/, exclude: /node_modules/, loader: 'babel'},
-      { test: /\.(png|jpg)$/, loader: 'file' },
-      { test: /\.(png|jpg)$/, loader: 'url?limit=10000'},
+      { test: /\.(png|jpg|ico)$/, loader: 'file?name=image/[name].[ext]' },
+      { test: /\.(png|jpg|ico)$/, loader: 'url?limit=10000'},
       { test: /\.(woff|woff2)(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=application/font-woff' },
       { test: /\.ttf(\?v=\d+\.\d+\.\d+)?$/, loader: 'url?limit=10000&mimetype=application/octet-stream' },
       { test: /\.eot(\?v=\d+\.\d+\.\d+)?$/, loader: 'file' },
@@ -35,14 +35,15 @@ module.exports = {
         warnings: false
       }
     }),
-    // new ExtractTextPlugin('[name].min.css', {
-    //   allChunks: true
-    // }),
     new HtmlWebpackPlugin({
       filename: './index.html',
       template: './index.html',
       inject: true
-    })
+    }),
+    new CopyWebpackPlugin([
+      { from: './src/download/*', to: './' },
+      { from: './favicon.ico', to: './' },
+    ])
   ],
   vue: {
     loaders: {
