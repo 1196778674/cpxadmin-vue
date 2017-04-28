@@ -2,12 +2,12 @@
     <div class="ball-tit">
         <ul>
             <li>
-                <a href="#" v-link="{path: '/cashier/table/all'}" @click="changeArea('all')">
+                <a href="#" v-link="{path: '/cashier/table/all'}" @click="changeArea('all')" :class="{'active_color': isActive == 'all'}">
                     全部<span>（{{table_count_all}}）</span>
                 </a>
             </li>
             <li v-for="item in list">
-                <a href="#" v-link="{path: '/cashier/table/' + item.area_id}" @click="changeArea(item.area_id)">
+                <a href="#" v-link="{path: '/cashier/table/' + item.area_id}" @click="changeArea(item.area_id)" :class="{'active_color': isActive == item.area_id}">
                     {{item.name}}<span>（{{item.table_count}}）</span>
                 </a>
             </li>
@@ -16,7 +16,7 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal fade kinds" id="add-edit-area" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal fade kinds" id="add-edit-area" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop='static'>
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header change-header">
@@ -68,13 +68,13 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" id="btn_submit" class="btn btn-default kind-sure" data-dismiss="modal">取消</button>
-                    <button type="button" class="btn btn-primary kind-sure" data-dismiss="modal" @click="addArea">确定</button>
+                    <button type="button" class="btn btn-primary kind-sure" @click="addArea">确定</button>
                 </div>
             </div>
         </div>
     </div>
     <!-- 删除模板 start -->
-    <div class="modal fade tips" id="delete-area">
+    <div class="modal fade tips" id="delete-area" data-backdrop='static'>
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -86,7 +86,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal" @click="remove">{{text.remove}}</button>
+                    <button type="button" class="btn btn-danger" @click="remove">{{text.remove}}</button>
                 </div>
             </div>
         </div>
@@ -109,23 +109,33 @@ export default {
             remove: '删除'
         },
         deleteId: '',
-        deleteIndex: ''
+        deleteIndex: '',
+        isActive: 'all'
     };
   },
   created: function() {
-    this.getList()
+    this.getList();
+    var isChecked = this.$route.params.area_id;
+    this.isActive = isChecked;
+  },
+  events: {
+    refresh_area: function() {
+        this.getList();
+    },
   },
   methods: {
     changeArea: function(id) {
-        // 传递id到父级组件
+        if (this.isActive == id) {
+            return;
+        };
         this.$dispatch("area_id", id);
+        this.isActive = id;
     },
     getList: function() {
         var self = this;
         var params = {
         };
         parent.Public.Ajax('/area_list', params, 'GET', function(res) {
-            //console.log(res.data);
             if (res.data.list.length>0) {
                 self.list = res.data.list;
             } else {
@@ -149,7 +159,11 @@ export default {
               area_id: self.deleteId
             };
             parent.Public.Ajax('/del_area', params, 'GET', function(res) {
+                $('.close').trigger('click');
                 self.list = res.data;
+                if (!res.data.length) {
+                    self.list = [{'area_id':'','name':'','enabled':0}];
+                };
             });
         } else {
             self.removeArea(self.deleteIndex);
@@ -184,13 +198,14 @@ export default {
             };
             parent.Public.Ajax('/add_area', params, 'POST', function(res){
                 self.list = res.data;
+                $('#btn_submit').trigger('click');
                 store('area_list', res.data);
             });
         }
     },
     // 添加区域
     addList: function(){
-        this.list.push({});
+        this.list.push({"enabled":1});
     },
     sort: function(id, index, type) {
         // area_id
@@ -261,5 +276,11 @@ export default {
 .sort{
     text-align: center;
 }
-
+.region-but{
+    margin-top: 10px;
+}
+.ball-tit a.active_color{
+    color: #1d9ee5;
+    cursor: no-drop;
+}
 </style>

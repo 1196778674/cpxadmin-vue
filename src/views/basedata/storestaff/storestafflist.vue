@@ -2,7 +2,7 @@
 <div class="main-tit">
     <form class="form-inline search-num" role="form">
       <div class="form-group">
-        <input type="email" class="form-control admin-cast" v-model="subdata" placeholder="请输入分类编号/首字母、名称">
+        <input type="email" class="form-control admin-cast" v-model="subdata" placeholder="请输入员工编号/员工姓名">
         <button type="button" class="btn btn-default dishes-but" data-toggle="dropdown" @click="search">
           搜索
         </button>
@@ -41,8 +41,8 @@
                 </div>
             </td> -->
             <td>
-                <a class="admin-make" role="button" data-toggle="modal" href="#add-eidt-staff" @click="edit(item.userId)">修改信息</a>
-                <a class="admin-make" role="button" data-toggle="modal" href="#delete-staff" @click="getDeleteId(item.id)">删除员工</a>
+                <a v-if="item.role>1" class="admin-make" role="button" data-toggle="modal" href="#add-eidt-staff" @click="edit(item.userId)">修改信息</a>
+                <a v-if="item.role>1" class="admin-make" role="button" data-toggle="modal" href="#delete-staff" @click="getDeleteId(item.id)">删除员工</a>
             </td>
         </tr>
     </tbody>
@@ -50,7 +50,7 @@
 </div>
 
 <!-- 添加、编辑模板 start -->
-<div class="modal fade" id="add-eidt-staff">
+<div class="modal fade" id="add-eidt-staff" data-backdrop='static'>
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -61,7 +61,7 @@
         <div class="form-group gower-group">
           <label for="inputEmail3" class="col-sm-2 control-label gower inputs"><span>*</span>员工编号:</label>
           <div class="col-sm-4">
-            <input type="text" class="form-control" v-model="addForm.identifier" value="{{addForm.identifier}}" id="" placeholder="">
+            <input type="text" class="form-control" v-model="addForm.identifier" value="{{addForm.identifier}}" placeholder="六位员工编号">
           </div>
           <label for="inputEmail3" class="col-sm-2 control-label gower inputs"><span>&nbsp;&nbsp;&nbsp;&nbsp;*</span>手机号:</label>
           <div class="col-sm-4">
@@ -71,11 +71,11 @@
         <div class="form-group gower-group">
           <label for="inputEmail3" class="col-sm-2 control-label gower inputs"><span>*</span>员工姓名:</label>
           <div class="col-sm-4">
-            <input type="text" class="form-control" v-model="addForm.nickname" value="{{addForm.nickname}}" id="" placeholder="">
+            <input type="text" class="form-control" v-model="addForm.nickname" value="{{addForm.nickname}}" placeholder="">
           </div>
-          <label for="inputEmail3" class="col-sm-2 control-label gower inputs"><span>&nbsp;*</span>登录密码:</label>
+          <label for="inputEmail3" class="col-sm-2 control-label gower inputs"><span v-if="!edituserId">&nbsp;*</span><span v-else>&nbsp;&nbsp;</span>登录密码:</label>
           <div class="col-sm-4">
-            <input type="text" class="form-control" v-model="addForm.password" value="{{addForm.password}}" id="" placeholder="">
+            <input type="text" class="form-control" v-model="addForm.password" value="{{addForm.password}}" placeholder="">
           </div>
         </div>
         <div class="form-group gower-group">
@@ -106,14 +106,14 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default kind-sure" data-dismiss="modal">关闭</button>
-        <button type="button" class="btn btn-primary kind-sure" data-dismiss="modal" @click="addStaff">{{text.btn}}</button>
+        <button type="button" class="btn btn-primary kind-sure" @click="addStaff">{{text.btn}}</button>
       </div>
     </div>
   </div>
 </div>
 <!-- 添加、编辑模板 end -->
 <!-- 删除模板 start -->
-<div class="modal fade tips" id="delete-staff">
+<div class="modal fade tips" id="delete-staff" data-backdrop='static'>
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -125,7 +125,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-        <button type="button" class="btn btn-danger" data-dismiss="modal" @click="remove">{{text.remove}}</button>
+        <button type="button" class="btn btn-danger" @click="remove">{{text.remove}}</button>
       </div>
     </div>
   </div>
@@ -153,12 +153,14 @@ export default {
         nickname: '',
         password: '',
         comment: '',
-        departments: ''
+        departments: '',
       },
       // 页码
       pagination: '',
       // delete id
-      deleteId: ''
+      deleteId: '',
+      edituserId: '',
+      page: ''
     };
   },
   created: function(){
@@ -167,7 +169,8 @@ export default {
   events: {
     // 获取当前页码
   	page: function(page){
-  		this.getList(page);
+      this.page = page;
+  		this.getList();
   	}
   },
   methods: {
@@ -184,6 +187,7 @@ export default {
           comment: '',
           departments: res.data
         };
+        self.edituserId = '';
       });
       self.text.title = '添加';
       self.text.btn = '添加';
@@ -206,28 +210,35 @@ export default {
         password: self.addForm.password,
         nickname: self.addForm.nickname,
         identifier: self.addForm.identifier,
-        departments: departments
+        comment: self.addForm.comment,
+        departments: departments,
+        edituserId: self.edituserId
       };
+      if (params.identifier.length != 6) {
+          parent.Public.tips.init({content: '员工编号位数不正确'});
+          return;
+      }
       if (self.text.title == '编辑') {
         params = $.extend(true, params, {isEdit: 1});
       } else {
         params = $.extend(true, params, {isEdit: 0});
       };
       parent.Public.Ajax('/add_shop_user', params, 'GET', function(res){
-          self.list = res.data.list;
+          $('.close').trigger('click');
+          self.getList(self.subdata);
       });
     },
     // 搜索
     search: function(){
       var self = this;
-      console.log(this.subdata);
       self.getList(self.subdata);
     },
     // 获取列表
-    getList: function(page){
+    getList: function(name){
       var self = this;
       var params = {
-        currentPage: page
+        name: self.subdata,
+        page: self.page
       };
       parent.Public.Ajax('/shop_user_list', params, 'GET', function(res){
         self.list = res.data.list;
@@ -239,6 +250,7 @@ export default {
     // 修改
     edit: function(id){
       var self = this;
+      self.edituserId = id;
       var params = {
         edituserId: id
       };
@@ -266,7 +278,8 @@ export default {
         deluserId: self.deleteId
       };
       parent.Public.Ajax('/del_shop_user', params, 'GET', function(res){
-        self.list = res.data.list;
+        $('.close').trigger('click');
+        self.getList(self.subdata);
       });
     }
   },

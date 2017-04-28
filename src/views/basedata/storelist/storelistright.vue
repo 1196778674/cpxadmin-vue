@@ -3,7 +3,7 @@
     <h5>{{title}}</h5>
     <div class="btn-group btn-event">
       <a class="btn btn-danger dishes-but register-but" data-toggle="modal" href='#remove-list'>移除</a>
-      <a class="btn btn-default dishes-but register-but" data-toggle="modal" href='#add-list-staff' @click="serachStaff">添加</a>
+      <a class="btn btn-default dishes-but register-but" data-toggle="modal" href="{{addmodel}}" @click="serachStaff">添加</a>
     </div>
   </div>
 	<div class="store-list-right">
@@ -16,7 +16,7 @@
 			</li >
 		</ul>
     <!-- 删除 strat -->
-    <div class="modal fade tips" id="remove-list">
+    <div class="modal fade tips" id="remove-list" data-backdrop='static'>
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -28,14 +28,14 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-            <button type="button" class="btn btn-danger" data-dismiss="modal" @click="removeStaff">删除</button>
+            <button type="button" class="btn btn-danger" @click="removeStaff">删除</button>
           </div>
         </div>
       </div>
     </div>
     <!-- 删除 end -->
     <!-- 添加 start -->
-    <div class="modal fade" id="add-list-staff">
+    <div class="modal fade" id="add-list-staff" data-backdrop='static'>
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -46,7 +46,7 @@
             <ul>
               <li v-for="staff in staffs">
                 <label>
-                  <input type="checkbox" name="" value="{{staff.userId}}" v-model="staff.checked">
+                  <input type="checkbox" name="" value="{{staff.userId}}" v-model="staff.statusType">
                   {{staff.nickname}}
                 </label>
               </li>
@@ -54,7 +54,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-            <button type="button" class="btn btn-primary" data-dismiss="modal" @click="addStaff">添加</button>
+            <button type="button" class="btn btn-primary" @click="addStaff">添加</button>
           </div>
         </div>
       </div>
@@ -75,11 +75,16 @@ export default {
       checkedall: false,
     	list: '',
       staffs: '',
-      title: '选择部门'
+      title: '',
+      // addmodel: '#add-list-staff'
+      addmodel: 'javascript:void(0)'
     };
   },
   created: function(){
     this.showStaffList(this.$route.params.type);
+    if (this.$route.params.type != '0') {
+      this.addmodel = '#add-list-staff';
+    };
   },
   events: {
     type: function(type){
@@ -87,6 +92,7 @@ export default {
     },
     title: function(title){
       this.title = title;
+      this.addmodel = '#add-list-staff';
     }
   },
   methods: {
@@ -104,6 +110,7 @@ export default {
         userList: datas
       };
       parent.Public.Ajax('/del_department', params, 'GET', function(res){
+        $('.close').trigger('click');
         self.showStaffList(self.$route.params.type);
       });
     },
@@ -117,13 +124,17 @@ export default {
         self.list = res.data;
       });
     },
-    // 搜索员工
+    // 添加员工
     serachStaff: function(){
       var self = this;
       var params = {
         deptId: self.$route.params.type,
       };
-      parent.Public.Ajax('/department_user', params, 'GET', function(res){
+      if (params.deptId == '0') {
+        parent.Public.tips.init({content: '请选择部门'});
+        return;
+      };
+      parent.Public.Ajax('/dept_user_list', params, 'GET', function(res){
         self.staffs = res.data;
       });
     },
@@ -131,8 +142,8 @@ export default {
     addStaff: function(){
       var self = this,
           userList = [];
-      $.each(self.staffs, function(i, v) {
-        if (v.checked) {
+      $.each(this.staffs, function(i, v) {
+        if (v.statusType) {
           userList.push(v.userId);
         };
       });
@@ -143,6 +154,7 @@ export default {
         deptId: self.$route.params.type
       };
       parent.Public.Ajax('/add_department_user', params, 'GET', function(res){
+        $('.close').trigger('click');
         self.showStaffList(self.$route.params.type);
       });
     }

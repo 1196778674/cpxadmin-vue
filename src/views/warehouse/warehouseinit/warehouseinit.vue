@@ -9,7 +9,7 @@
   <div v-else class="initImg"></div>
 
   <!-- 上传表格or下载模板 start -->
-  <div class="modal fade" id="uploadDown">
+  <div class="modal fade" id="uploadDown" data-backdrop='static'>
     <div class="modal-dialog little">
       <div class="modal-content">
         <div class="modal-header">
@@ -48,12 +48,12 @@ export default {
     onFileAfter: function(res){
       if (res.code != '0') {
         parent.Public.tips.init({content: res.msg});
-        this.errorExportUrl = parent.Public.domain() + 'excel/exportError?excelType=7&shopId=' + $cookie('shopId') + '&token=' + $cookie('token');
+        this.errorExportUrl = window.domain() + 'excel/exportError?excelType=7&shopId=' + $cookie('shopId') + '&token=' + $cookie('token');
       } else {
         parent.Public.tips.init({type: 3, content: res.msg});
         this.errorExportUrl = 'javascript:;';
       };
-      $('.close').trigger('click');
+      $('.propressBody').remove();
     }
   },
 

@@ -4,7 +4,7 @@ var CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   entry: {
-    app: './src/main.js'
+    app: ['./src/js/build.js', './src/main.js']
   },
   output: {
     path: './build',
@@ -42,6 +42,8 @@ module.exports = {
     }),
     new CopyWebpackPlugin([
       { from: './src/download/*', to: './' },
+      { from: './src/downloadpage/android/*', to: './' },
+      { from: './src/downloadpage/ios/*', to: './' },
       { from: './favicon.ico', to: './' },
     ])
   ],

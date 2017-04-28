@@ -10,14 +10,14 @@
         </form>
         <div class="sel-group">
             <label for="" class="sel-kind">座位席数:</label>
-            <select class="form-control sel-add" v-model="seating">
+            <select class="form-control sel-add" v-model="seating" @change="changedGetList(seating)">
                 <option value="">全部</option>
-                <option v-for="n in 30" value="{{n+1}}">{{n+1}}</option>
+                <option v-for="(index,item) in seating_group" value="{{item.seating}}">{{item.seating}}</option>
             </select>
         </div>
         <div class="sel-group">
             <label for="" class="sel-kind">状态:</label>
-            <select class="form-control sel-add" v-model="enabled">
+            <select class="form-control sel-add" v-model="enabled" @change="changedGetList(enabled)">
                 <option value="">全部</option>
                 <option value="1">启用</option>
                 <option value="0">禁用</option>
@@ -30,7 +30,7 @@
             <button type="button" class="btn btn-default dishes-but" data-toggle="modal" href="#more-create-table" @click='batchAdd'>
                 批量创建桌台
             </button>
-            <button type="button" href="#delete-table" @click="getDeleteIds()" class="btn btn-default dishes-but" data-toggle="modal" >
+            <button type="button" href="#delete-table" @click="getDeleteIds()" class="btn btn-default dishes-but" data-toggle="modal" :disabled='dis_delete'>
                 批量删除桌台
             </button>
             <!-- Modal -->
@@ -41,6 +41,7 @@
         <table class="table table-operation">
             <thead>
             <tr>
+                <th width="2%"></th>
                 <th width="3%"></th>
                 <th width="10%">桌台区域</th>
                 <th width="10%">桌台编号</th>
@@ -53,8 +54,9 @@
             </thead>
             <tbody>
             <tr v-for="(index,item) in list">
+                <td class="sn">{{index + 1}}</td>
                 <td>
-                    <input class="table_checkbox" type="checkbox" value="{{item.table_id}}" />
+                    <input class="table_checkbox" type="checkbox" value="{{item.table_id}}" @click="checkbox_fn" />
                 </td>
                 <td>{{item.areaName}}</td>
                 <td>{{item.identifier}}</td>
@@ -70,7 +72,7 @@
                 <!--<td>{{item.weight}}</td>-->
                 <td>
                     <div class="admin-change">
-                        <div class="checkbtn" @click="openOrClose(item.table_id, $event)">
+                        <div class="checkbtn" @click="openOrClose(item.table_id, item.enabled)">
                             <span v-if="item.enabled==1" class="admin-open">启用</span>
                             <span v-else>停用</span>
                         </div>
@@ -91,7 +93,7 @@
         </table>
     </div>
     <!-- 创建桌台 start -->
-    <div class="modal fade addmess" id="add-edit-table" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal fade addmess" id="add-edit-table" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop='static'>
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header change-header">
@@ -99,7 +101,7 @@
                 </div>
                 <div class="modal-body">
                     <div class="form-group kind-group">
-                        <label for="inputEmail3" class="col-sm-2 control-label"><span>*</span>桌台区域:</label>
+                        <label for="inputEmail3" class="col-sm-3 control-label"><span>*</span>桌台区域:</label>
                         <div class="col-sm-6">
                             <select class="form-control" v-model="addForm.area_id">
                                 <option value="-1">请选择</option>
@@ -108,25 +110,31 @@
                         </div>
                     </div>
                     <div class="form-group kind-group">
-                        <label for="inputEmail3" class="col-sm-2 control-label"><span>*</span>桌台编号:</label>
+                        <label for="inputEmail3" class="col-sm-3 control-label">桌台编号:</label>
                         <div class="col-sm-6">
-                            <input type="text" class="form-control" placeholder="" v-model="addForm.identifier">
+                            <input type="text" maxlength="4" class="form-control" placeholder="四位桌台编号" v-model="addForm.identifier">
+                        </div>
+                    </div>
+                    <div class="form-group gower-group font-tips">
+                        <label for="inputEmail3" class="col-sm-3 control-label"></label>
+                        <div class="col-sm-6">
+                            <p>编号可以不填写，系统自动分配</p>
                         </div>
                     </div>
                     <div class="form-group kind-group">
-                        <label for="inputEmail3" class="col-sm-2 control-label"><span>*</span>桌台名称:</label>
+                        <label for="inputEmail3" class="col-sm-3 control-label"><span>*</span>桌台名称:</label>
                         <div class="col-sm-6">
                             <input type="text" class="form-control" placeholder="" v-model="addForm.name">
                         </div>
                     </div>
                     <div class="form-group kind-group">
-                        <label for="inputEmail3" class="col-sm-2 control-label"><span>*</span>座位席数:</label>
+                        <label for="inputEmail3" class="col-sm-3 control-label"><span>*</span>座位席数:</label>
                         <div class="col-sm-6">
                             <input type="text" class="form-control" placeholder="" v-model="addForm.seating">
                         </div>
                     </div>
                     <div class="form-group kind-group">
-                        <label for="inputEmail3" class="col-sm-2 control-label"><span>*</span>状态:</label>
+                        <label for="inputEmail3" class="col-sm-3 control-label"><span>*</span>状态:</label>
                         <div class="col-sm-6">
                             <div class="admin-change dialog">
                               <div class="checkbtn dialog" @click="changeEnable($event)">
@@ -146,7 +154,7 @@
     </div>
     <!-- 创建桌台 end -->
     <!-- 批量创建桌台 start -->
-    <div class="modal fade addmess" id="more-create-table" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal fade addmess" id="more-create-table" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop='static'>
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header change-header">
@@ -217,7 +225,7 @@
     </div>
     <!-- 批量创建桌台 end -->
     <!-- 删除模板 start -->
-    <div class="modal fade tips" id="delete-table">
+    <div class="modal fade tips" id="delete-table" data-backdrop='static'>
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -229,7 +237,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal" @click="remove">{{text.remove}}</button>
+                    <button type="button" class="btn btn-danger" @click="remove">{{text.remove}}</button>
                 </div>
             </div>
         </div>
@@ -245,6 +253,7 @@ export default {
   data () {
     return {
     	list: '',
+    	seating_group: '',
     	keyword: '',
     	seating: '',
     	enabled: '',
@@ -276,11 +285,13 @@ export default {
         deleteIds: '',
         modifyId: '',
         pagination: '',
-        page: 1
+        page: 1,
+        dis_delete: true
     };
   },
 
   created: function(){
+    this.page = this.$route.query.page?this.$route.query.page:self.page;
     this.getList(this.$route.params.area_id);
   },
   events: {
@@ -295,6 +306,20 @@ export default {
     },
   },
   methods: {
+    // 选择删除条数
+    checkbox_fn: function(){
+        var ids = [];
+        $.each($('.table_checkbox'), function(i, v) {
+            if ($(v).prop('checked')) {
+              ids.push(v.value);
+            }
+        });
+        if (ids.length > 0) {
+            this.dis_delete = false;
+        } else {
+            this.dis_delete = true;
+        };
+    },
     // 修改model文案
     add: function(){
         var self = this;
@@ -314,6 +339,7 @@ export default {
             });
         }
 
+        self.modifyId = '';
         this.text.title = '添加';
         this.text.btn = '添加';
     },
@@ -339,14 +365,14 @@ export default {
         this.text.btn = '添加';
     },
     // 启用或关闭状态
-    openOrClose: function(id, e){
+    openOrClose: function(id, enabled){
     	var self = this;
     	var params = {
     		table_id: id,
-    		enabled: $(e.target).find('span').hasClass('admin-open')? 0:1
+    		enabled: enabled ? 0 : 1
     	};
     	parent.Public.Ajax('/enable_table', params, 'GET', function(res){
-	      	$(e.target).find('span').hasClass('admin-open') ? $(e.target).find('span').removeClass('admin-open').text('停用') : $(e.target).find('span').addClass('admin-open').text('启用')
+	      	self.getList();
         });
     },
     changeEnable: function(e) {
@@ -362,10 +388,18 @@ export default {
                 identifier_start: self.batchAddForm.identifier_start,
                 identifier_end: self.batchAddForm.identifier_end
             }
+
+            if (eval(params.identifier_start) > eval(params.identifier_end)) {
+                parent.Public.tips.init({content: '起始桌号不能大于结束桌号'});
+                return;
+            };
             parent.Public.Ajax('/table_check', params, 'GET', function(res){
 	      	    self.preview_text = self.batchAddForm.pre_name+self.batchAddForm.identifier_start+'至'+self.batchAddForm.pre_name+self.batchAddForm.identifier_end+',共创建'+(self.batchAddForm.identifier_end-self.batchAddForm.identifier_start+1)+'个桌台';
 	      	});
         }
+    },
+    refreshArea: function() {
+        this.$dispatch("refresh_area", 1);
     },
     // 添加桌台
     addTable: function(){
@@ -385,14 +419,14 @@ export default {
           parent.Public.tips.init({content: '请选择桌台区域'});
           return;
         };
-        if (!params.identifier) {
-          parent.Public.tips.init({content: '请输入桌台编号'});
-          return;
-        };
-        if (!/^[0-9]\d*$/.test(params.identifier)) {
-          parent.Public.tips.init({content: '请输入正确的菜品编号'});
-          return;
-        };
+        //if (!params.identifier) {
+        //  parent.Public.tips.init({content: '请输入桌台编号'});
+        //  return;
+        //};
+        //if (!/^[0-9]\d*$/.test(params.identifier)) {
+        //  parent.Public.tips.init({content: '请输入正确的菜品编号'});
+        //  return;
+        //};
         if (!params.name) {
           parent.Public.tips.init({content: '请输入桌台名称'});
           return;
@@ -401,10 +435,11 @@ export default {
           parent.Public.tips.init({content: '请输入座位席数'});
           return;
         };
-        $('.close-dialog').trigger('click');
         //console.log(params);return;
         parent.Public.Ajax('/add_table', params, 'POST', function(res) {
+            $('.close-dialog').trigger('click');
             self.getList();
+            self.refreshArea();
         });
     },
     // 批量添加桌台
@@ -446,15 +481,22 @@ export default {
           parent.Public.tips.init({content: '请输入桌台席位数'});
           return;
         };
-        $('.close-dialog').trigger('click');
+        if (params.identifier_start > params.identifier_end) {
+            parent.Public.tips.init({content: '起始桌号不能大于结束桌号'});
+            return;
+        };
         //console.log(params);return;
         parent.Public.Ajax('/batch_add_table', params, 'POST', function(res){
+            $('.close-dialog').trigger('click');
+            self.preview_text = '';
             self.getList();
+            self.refreshArea();
         });
     },
     // 搜索
     search: function(){
-      this.getList();
+        this.page = 1;
+        this.getList();
     },
     // 获取列表
     getList: function(area_id){
@@ -465,6 +507,7 @@ export default {
             enabled: self.enabled,
             page: self.page
         };
+        //console.log(self.$route.query.page);
         if (!area_id) {
             area_id = self.$route.params.area_id;
         }
@@ -473,8 +516,10 @@ export default {
         }
         parent.Public.Ajax('/table_list', params, 'GET', function(res){
             self.list = res.data.list;
+            self.seating_group = res.data.seating;
             store('table_list', res.data.list);
             self.pagination = res.data.totalPages;
+            self.$dispatch('total', res.data.total);
             self.$dispatch('pagination', self.pagination);
         });
         //console.log(store('area_list'));
@@ -521,7 +566,6 @@ export default {
             }
         });
         this.deleteIds = JSON.stringify(ids);
-        console.log(this.deleteIds);
     },
     // 删除
     remove: function() {
@@ -531,7 +575,9 @@ export default {
         table_ids: self.deleteIds
       };
       parent.Public.Ajax('/del_table', params, 'GET', function(res){
+        $('.close').trigger('click');
         self.getList();
+        self.refreshArea();
       });
     },
     sort: function(id, index, type) {
@@ -559,12 +605,23 @@ export default {
         parent.Public.Ajax('/sort_table', params, 'GET', function(res){
             self.getList();
         });
-    }
+    },
+    // 修改下拉后刷新表单
+    changedGetList: function(id){
+        this.page = 1;
+        this.getList();
+    },
   }
 }
 </script>
 
 <style lang="css" scoped>
+    .font-tips{
+        margin-bottom: 0px;
+    }
+    .font-tips p{
+        color: red;
+    }
 .checkbtn.dialog{
   margin-left: 0;
 }

@@ -53,11 +53,36 @@ export default {
       this.myFiles = document.getElementById(ident).files;
       this.$dispatch('onFileChange', this.myFiles);
       this.fileUpload();
+      var propressBodyHtm = '<div class="propressBody">'+
+                            '<div class="progressDiv">'+
+                            '<div class="propressTitel">上传中...'+
+                            '</div>'+
+                            '<div class="propressLoding">'+
+                            '<div class="loadingImg">'+
+                            '</div>'+
+                            '<span></span>'+
+                            '</div>'+
+                            '<div class="propressContent">'+
+                            '</div>'+
+                            '</div>'+
+                            '</div>';
+      $('.close').trigger('click');
+      $('body').append(propressBodyHtm);
     },
     _onProgress: function(e) {
       // this is an internal call in XHR to update the progress
       e.percent = (e.loaded / e.total) * 100;
-      this.$dispatch('onFileProgress', e);
+      var propressHtm = '<div class="progress">'+
+                        '<div class="progress-bar" role="progressbar" aria-valuenow="'+e.percent+'" aria-valuemin="0" aria-valuemax="100" style="width: '+e.percent+'%;">'+
+                          '<span class="sr-only">'+e.percent+'</span>'+
+                        '</div>'+
+                        '</div>';
+      $('.propressContent').html('').append(propressHtm);
+      if (e.percent == 100) {
+        $('.propressLoding').show().find('span').text('处理中...');
+        $('.propressContent, .propressTitel').remove();
+      };
+      // this.$dispatch('onFileProgress', e);
     },
     _handleUpload: function(file) {
       this.$dispatch('beforeFileUpload', file);
@@ -107,7 +132,7 @@ export default {
         }.bind(this);
         var shopId= $cookie('shopId'),
             token = $cookie('token');
-        var action = parent.Public.domain() + this.action + '?shopId=' + shopId + '&excelType=' + this.exceltype + '&token=' + token;
+        var action = window.domain() + this.action + '?shopId=' + shopId + '&excelType=' + this.exceltype + '&token=' + token;
         xhr.open(this.method || "POST", action, true);
         if (this.headers) {
           for(var header in this.headers) {

@@ -6,6 +6,9 @@
   padding: 0.2em 0;
 }
 
+@import url('../node_modules/select2/dist/css/select2.min.css');
+@import url('./css/select.min.css');
 @import url('./css/reset.css');
 @import url('./css/style.css');
 @import url('./css/tips.css');
+@import url('./css/flatpickr.css');

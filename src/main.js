@@ -14,6 +14,11 @@ window.bootstrap = require('bootstrap')
 // window.ud = require('underscore')
 window.store = require('store2')
 window.Public = require('./js/common')
+window.select2 = require('select2')
+window.flatpickr = require('flatpickr')
+// window.zh = require('flatpickr/dist/l10n/zh')
+window.zh = require('./js/zh')
+window.default = require('./js/default')
 
 // 引用模板部分
 // login
@@ -49,6 +54,10 @@ import warehouseinit from './views/warehouse/warehouseinit/warehouseinit.vue'
 import initializationDepartmentEarly from './views/warehouse/initializationDepartmentEarly/initializationDepartmentEarly.vue'
 // 仓库管理
 import warehouseManagement from './views/warehouse/warehouseManagement/warehouseManagement.vue'
+// 系统参数
+import systemParameter from './views/warehouse/systemParameter/systemParameter.vue'
+// 挂账管理
+import credit_order from './views/Cashier/credit_order/credit_order.vue'
 
 // 收银
 import Cashier from './views/Cashier/Cashier.vue'
@@ -67,7 +76,16 @@ import printright from './views/Cashier/print/printright.vue'
 import list from './views/Cashier/print/list.vue'
 // 参数设置
 import parameter from './views/Cashier/parameter/parameter.vue'
-
+// 菜品销售统计
+import salesstatistics from './views/Cashier/reportcenter/salesstatistics/salesstatistics.vue'
+// 详细日报表
+import dailyreport from './views/Cashier/reportcenter/dailyreport/dailyreport.vue'
+// 汇总日报表
+import dailysummary from './views/Cashier/reportcenter/dailysummary/dailysummary.vue'
+// 退菜报表
+import returnreport from './views/Cashier/reportcenter/returnreport/returnreport.vue'
+// 客户管理
+import customer from './views/Cashier/customer/customer.vue'
 
 Vue.config.debug = process.env.NODE_ENV !== 'production'
 
@@ -76,6 +94,10 @@ Vue.use(VueRouter)
 // $http
 var VueResource = require('vue-resource')
 Vue.use(VueResource)
+
+// 拖拽
+var VueDragAndDrogList = require('vue-drag-and-drop-list')
+Vue.use(VueDragAndDrogList)
 
 const router = new VueRouter()
 const App = Vue.extend(app)
@@ -126,7 +148,7 @@ router.map({
 	      				subRoutes: {
 	      					'/:type' : {component: permissionright,
 	      						subRoutes: {
-			      					'/:typeChild' : {component: materialright}
+			      					'/:typeChild' : {component: permissionright}
 			      				}
 	      					}
 	      				}
@@ -148,6 +170,9 @@ router.map({
 					},
 					'/warehouseManagement': {
 						component: warehouseManagement
+					},
+					'/systemParameter': {
+						component: systemParameter
 					}
 				},
 			}
@@ -194,6 +219,24 @@ router.map({
 						subRoutes: {
 	      					'/:id' : {component: parameter}
 	      				}
+					},
+					'/report/stats_dish': {
+						component: salesstatistics
+					},
+					'/report/stats_order': {
+						component: dailyreport
+					},
+					'/report/stats_summary': {
+						component: dailysummary
+					},
+					'/report/stats_cancel_dish': {
+						component: returnreport
+					},
+					'/credit_order': {
+						component: credit_order
+					},
+					'/customer': {
+						component: customer
 					}
 				}
 			}

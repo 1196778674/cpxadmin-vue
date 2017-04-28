@@ -26,7 +26,10 @@ export default {
     topItem: function(id){
       this.top = id;
       this.isActive = this.$route.params.type || this.list[0].id;
-    }
+    },
+    leftItem: function(id){
+      this.isActive = id;
+    },
   },
   methods: {
   	// 切换类别

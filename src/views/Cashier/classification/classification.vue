@@ -4,7 +4,7 @@
     <vu-list></vu-list>
     <!-- 门店员工列表 end -->
     <!-- 页码 start -->
-    <vu-pagination url='/Cashier/classification/'></vu-pagination>
+    <vu-pagination url='/Cashier/classification/' showtotal="true"></vu-pagination>
     <!-- 页码 end -->
 	</div>
 </template>
@@ -24,7 +24,10 @@ export default {
     // 分发当前页码给list模板
     page: function(page){
       this.$broadcast('page', page);
-    }
+    },
+    total: function(total){
+      this.$broadcast('total', total);
+    },
   },
 
   components: {

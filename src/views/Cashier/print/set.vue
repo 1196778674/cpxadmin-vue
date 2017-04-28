@@ -26,6 +26,9 @@ export default {
     },
     leftName: function(name){
       this.$broadcast('leftName', name);
+    },
+    enabledStatus: function(enabled){
+      this.$broadcast('enabledStatus', enabled);
     }
   }
 };

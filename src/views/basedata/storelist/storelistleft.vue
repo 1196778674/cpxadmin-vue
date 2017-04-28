@@ -1,7 +1,7 @@
 <template>
   <h6>部门列表<a data-toggle="modal" href='#addStore' @click="saveOptionId(0, 'add')">添加部门</a></h6>
   <ul>
-    <li v-for="(key, item) in list">
+    <li v-for="(key, item) in list" :class="{'active': isActive == item.id}">
       <a href="#" v-link="{path: '/home/storelist/' + item.id}" @click="changeType(item.id, item.name)">
         <span class="list-tit">{{item.name}}</span>
       </a>
@@ -11,7 +11,7 @@
   </ul>
 
   <!-- 添加部门 start -->
-  <div class="modal fade" id="addStore">
+  <div class="modal fade" id="addStore" data-backdrop='static'>
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -28,14 +28,14 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-          <button type="button" class="btn btn-primary" data-dismiss="modal" @click='addEditDepartment'>{{add_edit_btn}}</button>
+          <button type="button" class="btn btn-primary" @click='addEditDepartment'>{{add_edit_btn}}</button>
         </div>
       </div>
     </div>
   </div>
   <!-- 添加部门 end -->
   <!-- 删除部门 start -->
-  <div class="modal fade tips" id="deleteDepartment-modal">
+  <div class="modal fade tips" id="deleteDepartment-modal" data-backdrop='static'>
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -47,7 +47,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-          <button type="button" class="btn btn-danger" data-dismiss="modal" @click="deleteDepartment()">删除</button>
+          <button type="button" class="btn btn-danger" @click="deleteDepartment()">删除</button>
         </div>
       </div>
     </div>
@@ -68,7 +68,8 @@ export default {
       storename: '添加门店',
       add_edit_title: '添加部门',
       add_edit_btn: '添加',
-      newList: []
+      newList: [],
+      isActive: '0'
     };
   },
   created: function(){
@@ -80,6 +81,20 @@ export default {
       var self = this;
       parent.Public.Ajax('/department_list', {}, 'GET', function(res){
         self.list = res.data;
+        var id = self.$route.params.type === '0' ? res.data[0].id : self.$route.params.type;
+        var name = '';
+        $.each(res.data, function(i, v) {
+           if (v.id == id) {
+            name = v.name;
+           };
+        });
+        self.$dispatch('type', id);
+        self.$dispatch('title', name);
+
+        self.isActive = id;
+        for (var i = 0; i < self.list.length; i++) {
+          self.newList.push(self.list[i].id);
+        };
       });
     },
     // 切换部门
@@ -87,11 +102,11 @@ export default {
       // 传递id到父级组件
       this.$dispatch("type", id);
       this.$dispatch("title", title);
+      this.isActive = id;
     },
     // 保存当前操作id
     saveOptionId: function(id,type,name){
       this.optionId = !id ? '' : id;
-      console.log(this.optionId);
       if (type == 'edit') {
         this.add_edit_title = '编辑部门',
         this.add_edit_btn = '保存',
@@ -110,6 +125,7 @@ export default {
         name: self.storename,
       }
       parent.Public.Ajax('/operation_department', params, 'GET', function(res){
+        $('.close').trigger('click');
         self.list = res.data.deptlist;
         self.storename = '';
       });
@@ -118,6 +134,7 @@ export default {
     deleteDepartment: function(){
       var self = this;
       parent.Public.Ajax('/del_department', {deptId: this.optionId}, 'GET', function(res){
+        $('.close').trigger('click');
         if (!res.data) {
           parent.Public.tips.init({content: res.msg});
           return;
@@ -128,3 +145,8 @@ export default {
   }
 };
 </script>
+<style lang="css" scoped>
+  .active{
+    background: #D9ECFC;
+  }
+</style>

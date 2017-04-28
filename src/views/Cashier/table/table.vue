@@ -7,7 +7,7 @@
     <vu-list></vu-list>
     <!-- 列表 end -->
     <!-- 页码 start -->
-    <vu-pagination></vu-pagination>
+    <vu-pagination showtotal="true"></vu-pagination>
     <!-- 页码 end -->
 	</div>
 </template>
@@ -28,9 +28,15 @@ export default {
     page: function(page){
       this.$broadcast('page', page);
     },
+    total: function(total){
+      this.$broadcast('total', total);
+    },
     area_id: function(area_id) {
       // 传递type到right子组件
       this.$broadcast('area_id', area_id);
+    },
+    refresh_area: function() {
+        this.$broadcast('refresh_area', 1);
     }
   },
 

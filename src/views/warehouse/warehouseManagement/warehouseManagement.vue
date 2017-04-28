@@ -35,7 +35,7 @@
   </table>
 </div>
 <!-- 添加/修改单单位 start -->
-<div class="modal fade" id="add-edit-warehouse">
+<div class="modal fade" id="add-edit-warehouse" data-backdrop='static'>
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -58,14 +58,14 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-        <button type="button" class="btn btn-primary" data-dismiss="modal" @click="addWarehouse">保存</button>
+        <button type="button" class="btn btn-primary" @click="addWarehouse">保存</button>
       </div>
     </div>
   </div>
 </div>
 <!-- 添加单单位 end -->
 <!-- 删除单位 start -->
-<div class="modal fade tips" id="remove-warehouse">
+<div class="modal fade tips" id="remove-warehouse" data-backdrop='static'>
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -77,7 +77,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-          <button type="button" class="btn btn-danger" data-dismiss="modal" @click="removeWarehouse">确认</button>
+          <button type="button" class="btn btn-danger" @click="removeWarehouse">确认</button>
         </div>
       </div>
     </div>
@@ -144,7 +144,16 @@ export default {
         warehouseSn: self.warehouse.sn,
         id: self.warehouseId
       };
+      if (!params.warehouseSn) {
+        parent.Public.tips.init({content: '请输入库房编号'});
+        return false;
+      };
+      if (!params.warehouseName) {
+        parent.Public.tips.init({content: '请输入库房名称'});
+        return false;
+      };
       parent.Public.Ajax('/warehouse_set_up', params, 'POST', function(res){
+        $('.close').trigger('click');
          self.getList();
       });
     },
@@ -156,6 +165,7 @@ export default {
         warehouseId: this.warehouseId
       };
       parent.Public.Ajax('/warehouse_delete', params, 'GET', function(res){
+        $('.close').trigger('click');
          self.getList();
       });
     },

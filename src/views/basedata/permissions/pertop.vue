@@ -27,7 +27,10 @@ export default {
     },
     leftItem: function(id){
       this.left = id;
-    }
+    },
+    topItem: function(id){
+      this.isActive = id;
+    },
   },
   methods: {
   	changeTypes: function(id){

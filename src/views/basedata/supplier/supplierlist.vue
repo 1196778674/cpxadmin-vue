@@ -30,11 +30,11 @@
 	        <tr v-for="item in list">
 	            <td>{{item.supplierSn}}</td>
 	            <td>{{item.name}}</td>
-	            <td>{{item.createdAtUserName}}</td>
+	            <td>{{item.contact}}</td>
 	            <td>{{item.phone}}</td>
 	            <td>
 	                <div class="admin-change">
-	                    <div class="checkbtn" @click="openOrClose(item.id, $event)">
+	                    <div class="checkbtn" @click="openOrClose(item.id, item.type)">
 	                      <span v-if="item.type == 1" class="admin-open">启用</span>
 	                      <span v-else>停用</span>
 	                    </div>
@@ -49,7 +49,7 @@
 	  </table>
 	</div>
 	<!-- 添加、编辑模板 start -->
-	<div class="modal fade" id="add-eidt-staff">
+	<div class="modal fade" id="add-eidt-staff" data-backdrop='static'>
 	  <div class="modal-dialog">
 	    <div class="modal-content">
 	      <div class="modal-header">
@@ -70,14 +70,14 @@
 	        <div class="form-group gower-group">
 	          <label for="inputEmail3" class="col-sm-2 control-label gower inputs">供应商分类:</label>
 	          <div class="col-sm-4">
-	            <select name="" id="" class="form-control" v-model="addForm.firstCategoryId" @change="getSecondCategory(addForm.firstCategoryId)">
+	            <select name="" id="categorySelect" class="form-control" v-model="addForm.firstCategoryId" @change="getSecondCategory(addForm.firstCategoryId)">
 	            	<option value="0">请选择</option>
 	            	<option v-for="item in firstCategory" value="{{item.id}}">{{item.name}}</option>
 	            </select>
 	          </div>
 	          <label for="inputEmail3" class="col-sm-2 control-label gower inputs">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;二级分类:</label>
 	          <div class="col-sm-4">
-	            <select name="" id="" class="form-control" v-model="addForm.secondCategoryId">
+	            <select name="" id="secondCategorySelect" class="form-control" v-model="addForm.secondCategoryId">
 	            	<option value="0">请选择</option>
 	            	<option v-for="item in secondCategory" value="{{item.id}}">{{item.name}}</option>
 	            </select>
@@ -154,14 +154,14 @@
 	      </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-default kind-sure" data-dismiss="modal">关闭</button>
-	        <button type="button" class="btn btn-primary kind-sure" data-dismiss="modal" @click="addStaff">{{text.btn}}</button>
+	        <button type="button" class="btn btn-primary kind-sure" @click="addStaff">{{text.btn}}</button>
 	      </div>
 	    </div>
 	  </div>
 	</div>
 	<!-- 添加、编辑模板 end -->
 	<!-- 删除模板 start -->
-	<div class="modal fade tips" id="delete-staff">
+	<div class="modal fade tips" id="delete-staff" data-backdrop='static'>
 	  <div class="modal-dialog">
 	    <div class="modal-content">
 	      <div class="modal-header">
@@ -173,12 +173,68 @@
 	      </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-	        <button type="button" class="btn btn-danger" data-dismiss="modal" @click="remove">{{text.remove}}</button>
+	        <button type="button" class="btn btn-danger" @click="remove">{{text.remove}}</button>
 	      </div>
 	    </div>
 	  </div>
 	</div>
 	<!-- 删除模板 end -->
+	<!-- 添加供应商分类 start -->
+	<!-- <a class="btn btn-primary hide" id="show-categery-modal1" data-toggle="modal" href='#add-categery1'>添加供应商分类</a> -->
+	<div class="modal fade" id="add-categery1" data-backdrop='static' style="z-index: 99999;">
+		<div class="modal-dialog" style="width: 400px;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close closeadd" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title">添加供应商分类</h4>
+				</div>
+				<div class="modal-body">
+					<div class="form-group gower-group">
+			          <label for="inputEmail3" class="col-sm-2 control-label gower inputs">供应商分类:</label>
+			          <div class="col-sm-8">
+			            <input type="text" class="form-control" v-model="categoryInput" value="" id="" placeholder="">
+			          </div>
+			        </div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					<button type="button" class="btn btn-primary" @click="addCategory">保存</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 添加供应商分类 end -->
+	<!-- 添加供应商分类 start -->
+	<!-- <a class="btn btn-primary hide" id="show-categery-modal2" data-toggle="modal" href='#add-categery2'>添加供应商二级分类</a> -->
+	<div class="modal fade" id="add-categery2" data-backdrop='static' style="z-index: 99999;">
+		<div class="modal-dialog" style="width: 400px;">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close closeadd" data-dismiss="modal" aria-hidden="true">&times;</button>
+					<h4 class="modal-title">添加供应商二级分类</h4>
+				</div>
+				<div class="modal-body">
+					<div class="form-group gower-group">
+			          <label for="inputEmail3" class="col-sm-2 control-label gower inputs">供应商一级分类:</label>
+			          <div class="col-sm-7" style="line-height: 35px;">
+			            {{firstCategoryName}}
+			          </div>
+			        </div>
+					<div class="form-group gower-group">
+			          <label for="inputEmail3" class="col-sm-2 control-label gower inputs">供应商二级分类:</label>
+			          <div class="col-sm-7">
+			            <input type="text" class="form-control" v-model="secondCategoryInput" value="" id="" placeholder="">
+			          </div>
+			        </div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+					<button type="button" class="btn btn-primary" @click="addSecondCategory">保存</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- 添加供应商分类 end -->
 </template>
 
 <script>
@@ -209,7 +265,10 @@ export default {
       // 页码
       pagination: '',
       // delete id
-      deleteId: ''
+      deleteId: '',
+      categoryInput: '',
+      secondCategoryInput: '',
+      firstCategoryName: ''
     };
   },
   created: function(){
@@ -248,15 +307,47 @@ export default {
         payee: ''
       };
     },
+    // 添加供应商分类
+    addCategory: function(){
+    	var self = this;
+    	var params = {
+    		name: this.categoryInput
+    	};
+    	parent.Public.Ajax('/supplier_first_category_add', params, 'POST', function(res){
+    		self.firstCategory = res.data.list;
+    		self.categoryInput = '';
+    		$('.closeadd').trigger('click');
+    	});
+    },
+    // 添加供应商二级分类
+    addSecondCategory: function(){
+    	var self = this;
+    	var params = {
+    		firstCategoryId: $('#categorySelect').val(),
+    		name: this.secondCategoryInput
+    	};
+    	parent.Public.Ajax('/supplier_second_category_add', params, 'POST', function(res){
+    		self.secondCategory = res.data.list;
+    		self.secondCategoryInput = '';
+    		$('.closeadd').trigger('click');
+    	});
+    },
     // 启用或关闭状态
-    openOrClose: function(id, e){
+    openOrClose: function(id, enabled){
     	var self = this;
     	var params = {
     		id: id
     	};
     	parent.Public.Ajax('/supplier_status_set', params, 'GET', function(res){
-	      	$(e.target).find('span').hasClass('admin-open') ? $(e.target).find('span').removeClass('admin-open').text('停用') : $(e.target).find('span').addClass('admin-open').text('启用')
+	      	self.getList();
         });
+    },
+    // modal多层嵌套
+    modalMore: function(){
+		$('.modal-backdrop').each(function() {
+			console.log($(this));
+			$(this).attr('id', 'id_' + Math.random());
+		});
     },
     // 添加员工
     addStaff: function(){
@@ -282,6 +373,7 @@ export default {
         payee: datas.payee
       };
       parent.Public.Ajax('/supplier_set_up', params, 'POST', function(res){
+      	$('.close').trigger('click');
       	self.getList();
       });
     },
@@ -358,6 +450,7 @@ export default {
       	id: self.deleteId
       }
       parent.Public.Ajax('/supplier_delete', params, 'GET', function(res){
+      	$('.close').trigger('click');
       	self.getList();
       });
     },
@@ -374,7 +467,45 @@ export default {
     	var params = {};
     	parent.Public.Ajax('/supplier_first_category_list', params, 'GET', function(res){
 	      	self.firstCategory = res.data;
+    		self.selectCombo('#categorySelect', 1);
+    		self.selectCombo('#secondCategorySelect', 2);
+    		// 请求二级分类
+    		$('#categorySelect').on('change', function(e) {
+    		    e.preventDefault();
+    		    var id = $(e.target).val();
+    		    self.getSecondCategory(id);
+    		});
 	    });
+    },
+    selectCombo: function(id,type){
+    	var self = this;
+    	$(id).select2({
+			minimumResultsForSearch: -1,
+			placeholder: '请选择',
+			maximumInputLength: 10,
+		});
+		$(id).siblings('.select2-container').css({width: '160px'});
+		$(id).siblings('.select2-container').on('click', function(e) {
+		    e.preventDefault();
+		    var addHtm = '<a id="addCategery'+type+'" class="glyphicon glyphicon-plus" data-toggle="modal" href="#add-categery'+type+'">添加</a>';
+		    $('#addCategery'+type).length || $('.select2-dropdown').append(addHtm);
+		});
+		// 添加供应商分类
+		$('body').on('click', '#addCategery'+type, function(e){
+			e.preventDefault();
+			self.modalMore();
+			if (type == '2 ') {
+				var firstId = $('#categorySelect').val();
+				if (firstId == '0') {
+					parent.Public.tips.init({content: '请选择供应商分类'});
+					$('.closeadd').trigger('click');
+					return;
+				} else {
+					var index = $('#categorySelect').select()[0].options.selectedIndex;
+					self.firstCategoryName = $('#categorySelect').select()[0].options[index].innerText;
+				};
+			};
+		});
     },
     // 获取供应商二级类别
     getSecondCategory: function(id){

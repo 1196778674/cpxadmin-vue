@@ -1,10 +1,10 @@
 module.exports = {
   entry: {
-    app: './src/main.js'
+    app: ['./src/js/test.js', './src/main.js']
   },
   output: {
     path: './build',
-    publicPath: './',
+    publicPath: 'build/',
     filename: 'bundle.js'
   },
   module: {

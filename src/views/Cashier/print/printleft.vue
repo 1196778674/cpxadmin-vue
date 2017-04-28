@@ -1,9 +1,9 @@
 <template>
   <h6>打印机分配列表<a data-toggle="modal" href='#changeDepartment' @click='getDepartmentList'>选择部门</a></h6>
   <ul>
-    <li v-for="(key, item) in list" @click="leftId(item.department_id, item.departmentName)">
+    <li v-for="(key, item) in list" :class="{'active' : isActive == item.department_id}">
       <a href="#" v-link="{path: '/cashier/print/set/' + item.department_id}">
-        <span class="list-tit">{{item.departmentName}}</span>
+        <span class="list-tit" @click="leftId(item.department_id, item.departmentName, item.enabled)">{{item.departmentName}}</span>
       </a>
       <div class="admin-change dialog">
         <div class="checkbtn dialog" @click='enableSet(item.department_id, item.enabled)'>
@@ -16,7 +16,7 @@
   </ul>
 
   <!-- 添加 start -->
-  <div class="modal fade" id="changeDepartment">
+  <div class="modal fade" id="changeDepartment" data-backdrop='static'>
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -24,21 +24,24 @@
           <h4 class="modal-title">选择部门</h4>
         </div>
         <div class="modal-body">
+          <div v-if="deparlist">
             <label class="depart" v-for="item in deparlist">
               <input type="checkbox" name="" value="{{item.id}}" v-model="item.select">
               {{item.name}}
             </label>
+          </div>
+          <div v-else>无部门</div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-          <button type="button" class="btn btn-primary" data-dismiss="modal" @click='addDepartment'>确定</button>
+          <button type="button" class="btn btn-primary" @click='addDepartment'>确定</button>
         </div>
       </div>
     </div>
   </div>
   <!-- 添加 end -->
   <!-- 删除部门 start -->
-  <div class="modal fade tips" id="deleteDepartment-modal">
+  <div class="modal fade tips" id="deleteDepartment-modal" data-backdrop='static'>
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -50,7 +53,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-          <button type="button" class="btn btn-danger" data-dismiss="modal" @click="remove">删除</button>
+          <button type="button" class="btn btn-danger" @click="remove">删除</button>
         </div>
       </div>
     </div>
@@ -69,7 +72,8 @@ export default {
     return {
     	list: '',
       deparlist:'',
-      saveid: ''
+      saveid: '',
+      isActive: ''
     };
   },
   created: function(){
@@ -81,6 +85,22 @@ export default {
       var self = this;
       parent.Public.Ajax('/print_set_list',{},'GET',function(res){
         self.list = res.data;
+        var id = self.$route.params.id == '0' ? res.data[0].department_id : self.$route.params.id,
+          title = '',
+          name = '',
+          enabled = '';
+        $.each(res.data, function(i, v) {
+           if (v.department_id == id) {
+              name = v.departmentName;
+              enabled = v.enabled;
+           };
+        });
+        title = self.$route.params.id == '0' ? res.data[0].departmentName : name,
+        enabled = self.$route.params.id == '0' ? res.data[0].enabled : enabled;
+        self.$dispatch('leftId', id);
+        self.$dispatch('leftName', title);
+        self.$dispatch('enabledStatus', enabled);
+        self.isActive = self.$route.params.id == '0' ? res.data[0].department_id : self.$route.params.id;
       })
     },
     // 获取选择部门列表
@@ -88,7 +108,11 @@ export default {
       var self = this;
       var params = {};
       parent.Public.Ajax('/get_department', params, 'GET', function(res){
-        self.deparlist = res.data;
+        if (res.data.length == 0) {
+          self.deparlist = '';
+        } else {
+          self.deparlist = res.data;
+        };
       });
     },
     // 保存id
@@ -102,6 +126,7 @@ export default {
         department_id: this.saveid
       };
       parent.Public.Ajax('/del_print_set', params, 'GET', function(res){
+        $('.close').trigger('click');
         self.getList();
       });
     },
@@ -118,6 +143,7 @@ export default {
         ids: ids
       };
       parent.Public.Ajax('/init_print_set', params, 'POST', function(res){
+        $('.close').trigger('click');
         self.getList();
       });
     },
@@ -126,16 +152,19 @@ export default {
       var self = this;
       var params = {
         department_id: id,
-        enabled: type
+        enabled: 1-type
       };
       parent.Public.Ajax('/department_enabled_set', params, 'GET', function(res){
         self.getList();
       });
     },
     // 上传id
-    leftId: function(id, name){
+    leftId: function(id, name, enabled){
       this.$dispatch('leftId', id);
       this.$dispatch('leftName', name);
+      this.$dispatch('enabledStatus', enabled);
+      // 标记active状态
+      this.isActive = id;
     },
 
   }
@@ -147,5 +176,8 @@ export default {
   }
   .depart{
     margin-right: 10px;
+  }
+  .active{
+    background: #D9ECFC;
   }
 </style>

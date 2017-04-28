@@ -37,7 +37,7 @@
 			<div class="units" :style="{height: unitheight}">
 				<div class="form-group">
 		    		<label for="">多计量单位:</label>
-		    		<button type="submit" class="btn btn-primary" data-toggle="modal" href="#add-edit-unitGroup" @click="addEditUnitGroup('add')">新增</button>
+		    		<button type="submit" class="btn btn-primary" data-toggle="modal" href="#add-edit-unitGroup" @click="addEditUnitGroup('add', '')">新增</button>
 		    	</div>
 		    	<table class="table table-operation">
 		    		<thead>
@@ -62,7 +62,7 @@
 		</div>
 	</div>
 	<!-- 添加单单位 start -->
-	<div class="modal fade" id="add-edit-unit">
+	<div class="modal fade" id="add-edit-unit" data-backdrop='static'>
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -79,14 +79,14 @@
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-					<button type="button" class="btn btn-primary" data-dismiss="modal" @click="subUnitName">{{unitText.btn}}</button>
+					<button type="button" class="btn btn-primary" @click="subUnitName">{{unitText.btn}}</button>
 				</div>
 			</div>
 		</div>
 	</div>
 	<!-- 添加单单位 end -->
 	<!-- 添加多单位 start -->
-	<div class="modal fade" id="add-edit-unitGroup">
+	<div class="modal fade" id="add-edit-unitGroup" data-backdrop='static'>
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
@@ -123,14 +123,14 @@
 				</div>
 				<div class="modal-footer">
 					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-					<button type="button" class="btn btn-primary" data-dismiss="modal" @click="subUnitGroupName">{{unitGroupText.btn}}</button>
+					<button type="button" class="btn btn-primary" @click="subUnitGroupName">{{unitGroupText.btn}}</button>
 				</div>
 			</div>
 		</div>
 	</div>
 	<!-- 添加多单位 end -->
 	<!-- 删除单位 start -->
-	<div class="modal fade tips" id="remove-unit">
+	<div class="modal fade tips" id="remove-unit" data-backdrop='static'>
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -142,7 +142,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-            <button type="button" class="btn btn-danger" data-dismiss="modal" @click="removeUnitBtn">确认</button>
+            <button type="button" class="btn btn-danger" @click="removeUnitBtn">确认</button>
           </div>
         </div>
       </div>
@@ -231,18 +231,19 @@ export default {
 	  		}
         self.auxiliaryUnitGroup = [{unit: '', proportion: ''}];
         self.addUnitName = '';
+        self.unitGroupId = '';
         return;
   		} else {
   			self.unitGroupText = {
 	  			title: '修改多单位',
 	  			btn: '修改'
 	  		}
+        self.unitGroupId = id;
+        parent.Public.Ajax('/material_unit_group_edit_data', {id: id}, 'GET', function(res){
+          self.auxiliaryUnitGroup = res.data.splice(1,res.data.length - 1);
+          self.addUnitName = res.data[0].unit;
+        });
   		};
-      self.unitGroupId = id;
-      parent.Public.Ajax('/material_unit_group_edit_data', {id: id}, 'GET', function(res){
-        self.auxiliaryUnitGroup = res.data.splice(1,res.data.length - 1);
-        self.addUnitName = res.data[0].unit;
-      });
   	},
   	// 提交单单位数据
   	subUnitName: function(){
@@ -252,6 +253,7 @@ export default {
   			unitId: self.unitId
   		};
   		parent.Public.Ajax('/material_unit_set', params, 'GET', function(res){
+        $('.close').trigger('click');
   			self.unitList = res.data.unit;
   			self.unitName = '';
   		});
@@ -260,7 +262,7 @@ export default {
   	subUnitGroupName: function(){
   		var self = this;
   		var unitList = [self.addUnitName],
-  			proportionList = [1];
+  		    proportionList = [1];
   		$.each(self.auxiliaryUnitGroup, function(i, v) {
   			unitList.push(v.unit);
   			proportionList.push(v.proportion);
@@ -271,6 +273,7 @@ export default {
   			proportion: proportionList
   		};
   		parent.Public.Ajax('/material_unit_group_set', params, 'GET', function(res){
+        $('.close').trigger('click');
   			self.unitGroupList = res.data.unitGroup;
   			store('unitGroupList', res.data.unitGroup);
   		});
@@ -283,6 +286,7 @@ export default {
   			unitGroupId: self.unitGroupId
   		};
   		parent.Public.Ajax('/material_unit_delete', params, 'GET', function(res){
+        $('.close').trigger('click');
   			self.unitList = res.data.unit;
   			self.unitGroupList = res.data.unitGroup;
   			store('unitList', res.data.unit);

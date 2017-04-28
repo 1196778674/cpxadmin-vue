@@ -17,7 +17,7 @@
 		</ul>
 	</div>
 	<!-- 删除 strat -->
-    <div class="modal fade tips" id="remove-list">
+    <div class="modal fade tips" id="remove-list" data-backdrop='static'>
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -29,14 +29,14 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-            <button type="button" class="btn btn-danger" data-dismiss="modal" @click="removeStaff">确认</button>
+            <button type="button" class="btn btn-danger" @click="removeStaff">确认</button>
           </div>
         </div>
       </div>
     </div>
     <!-- 删除 end -->
     <!-- 添加 start -->
-    <div class="modal fade" id="add-list-staff">
+    <div class="modal fade" id="add-list-staff" data-backdrop='static'>
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -53,7 +53,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-            <button type="button" class="btn btn-primary" data-dismiss="modal" @click="addSecondCategory">添加</button>
+            <button type="button" class="btn btn-primary" @click="addSecondCategory">添加</button>
           </div>
         </div>
       </div>
@@ -114,6 +114,7 @@ export default {
         ids: datas
       };
       parent.Public.Ajax('/material_category_delete', params, 'GET', function(res){
+        $('.close').trigger('click');
         $.each(self.list, function(i, v) {
           if (!v.checked) {
            newList.push(v);
@@ -131,6 +132,7 @@ export default {
         parentId: self.$route.params.type,
       };
       parent.Public.Ajax('/material_second_category_set_up', params, 'GET', function(res){
+        $('.close').trigger('click');
         self.list = res.data;
         self.secondCategory = '';
       });

@@ -3,7 +3,10 @@
      	<nav class="navbar navbar-default navbar-fixed-top logo-top">
 	        <div class="container-fluid">
 	            <div class="navbar-header">
-	                <a class="navbar-brand nav-logo" href="#"><span class="logo"></span></a><h3 class="cpx-admin">{{title}}</h3>
+	                <a class="navbar-brand nav-logo" href="#">
+                    <span class="logo"></span>
+                    <h3 class="cpx-admin">{{title}}</h3>
+                  </a>
 	            </div>
 	            <div v-if="token" class="collapse navbar-collapse logo-admin">
 	                <ul class="nav navbar-nav navbar-right">
@@ -34,7 +37,7 @@
   				</div>
   				<div class="modal-footer">
   					<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-  					<button type="button" class="btn btn-primary" data-dismiss="modal" @click="layout">确认</button>
+  					<button type="button" class="btn btn-danger" @click="layout">退出</button>
   				</div>
   			</div>
   		</div>
@@ -65,9 +68,12 @@ export default {
   },
   methods: {
   	layout: function(){
+      $('.close').trigger('click');
       $cookie('token', '');
       $cookie('shopId', '');
       $cookie('shop_id', '');
+      $cookie('userId', '');
+      $cookie('userid', '');
       store.clear();
       window.location.reload();
   	}

@@ -1,7 +1,7 @@
 <template>
 	<h6>一级类别列表<a data-toggle="modal" href='#addStore' @click="clearOption">添加</a></h6>
   	<ul>
-    	<li v-for="item in list">
+    	<li v-for="item in list" :class="{'active': isActive == item.id}">
       		<a href="#" v-link="{path: '/home/materialtype/' + item.id}" @click="changeType(item.id, item.name)">
         		<span class="list-tit">{{item.name}} {{item.categorySn}}</span>
         		<a class="list-edit" data-toggle="modal" href='#delete-modal' @click="saveOptions(item.id)"></a>
@@ -10,7 +10,7 @@
     	</li >
   	</ul>
   	<!-- 添加/编辑部门 start -->
-  	<div class="modal fade" id="addStore">
+  	<div class="modal fade" id="addStore" data-backdrop='static'>
 	    <div class="modal-dialog">
 	      	<div class="modal-content">
 	        	<div class="modal-header">
@@ -27,14 +27,14 @@
 	        	</div>
 	        	<div class="modal-footer">
 	          		<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-	          		<button type="button" class="btn btn-primary" data-dismiss="modal" @click='addStore'>保存</button>
+	          		<button type="button" class="btn btn-primary" @click='addStore'>保存</button>
 	        	</div>
 	      	</div>
 	    </div>
   	</div>
   	<!-- 添加/编辑部门 end -->
     <!-- 删除部门 start -->
-    <div class="modal fade tips" id="delete-modal">
+    <div class="modal fade tips" id="delete-modal" data-backdrop='static'>
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -46,7 +46,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-            <button type="button" class="btn btn-danger" data-dismiss="modal" @click="deleteFirst()">删除</button>
+            <button type="button" class="btn btn-danger" @click="deleteFirst()">删除</button>
           </div>
         </div>
       </div>
@@ -64,6 +64,7 @@ export default {
     	list: '',
       firstCategory: '',
       optionId: '',
+      isActive: ''
     };
   },
   created: function(){
@@ -73,6 +74,17 @@ export default {
     };
     parent.Public.Ajax('/material_category_list', params, 'GET', function(res){
       self.list = res.data;
+      console.log(self.$route);
+      var id = self.$route.params.type == '0' ? res.data[0].id : self.$route.params.type;
+      var name = '';
+      $.each(res.data, function(i, v) {
+         if (v.id == id) {
+          name = v.name;
+         };
+      });
+      self.$dispatch("type", res.data[0].id);
+      self.$dispatch("title", name);
+      self.isActive = id;
     });
   },
   methods: {
@@ -89,15 +101,16 @@ export default {
         categoryId: self.optionId
       };
       parent.Public.Ajax('/material_first_category_set_up', params, 'GET', function(res){
+        $('.close').trigger('click');
         self.list = res.data;
         self.firstCategory = '';
       });
     },
     // 切换类别
     changeType: function(id, title){
-      // 传递id到父级组件
       this.$dispatch("type", id);
       this.$dispatch("title", title);
+      this.isActive = id;
     },
     // 存储删除类别
     saveOptions: function(id, name){
@@ -112,6 +125,7 @@ export default {
         ids: [this.optionId]
       };
       parent.Public.Ajax('/material_category_delete', params, 'GET', function(res){
+        $('.close').trigger('click');
         $.each(self.list, function(i, v) {
            if (params.ids != v.id) {
             newList.push(v);
